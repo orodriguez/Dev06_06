@@ -35,3 +35,7 @@ dotnet test
 
 Solutions to exercises should be posted via pull requests against `main` branch.
 The branches should have the following format `dev06-6-[assignment-number]-[student-name]`.
+
+## Course Notes
+
+Notes will be taken in [workflowy](https://workflowy.com/) where is the [link](https://workflowy.com/s/algorithms-data-stru/jEI5FDOPUuQeGPWB) for read access to the nodes.
