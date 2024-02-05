@@ -33,8 +33,7 @@ dotnet test
 
 ## Assignments
 
-Solutions to exercises should be posted via pull requests against `main` branch.
-The branches should have the following format `dev06-6-[assignment-number]-[student-name]`.
+Solutions to exercises should be posted via pull requests.
 
 ## Course Notes
 
