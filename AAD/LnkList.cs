@@ -19,7 +19,7 @@ public class LnkList<T> {
     public LnkList() : this(head: null, last: null)
     {
     }
-
+    
     private LnkList(LnkNode<T>? head, LnkNode<T>? last)
     {
         _head = head;
