@@ -8,6 +8,7 @@ public class LnkList<T> {
     {
         int n = values.Length;
         LnkList<T> listaLink = new LnkList<T>();
+        Array.Reverse(values);
         for (int i = 0; i < n; i++)
         {
             listaLink.Add(values[i]);
