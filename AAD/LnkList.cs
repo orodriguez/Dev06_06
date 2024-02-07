@@ -1,7 +1,6 @@
 namespace AAD;
 
 public class LnkList<T> {
-    
     public static LnkList<T> From(params T[] values)
     {
         var ll = new LnkList<T>();
@@ -26,6 +25,18 @@ public class LnkList<T> {
         _last = last;
         _count = 0;
     }
+    
+    // O(1)
+    public void Prepend(T value)
+    {
+        if (_head == null)
+        {
+            _head = new LnkNode<T>(value);
+            return;
+        }
+        
+        _head = new LnkNode<T>(value, next: _head);
+    }
 
     // O(1)
     public void Add(T element)
@@ -45,6 +56,7 @@ public class LnkList<T> {
     }
 
     // O(n)
+
     public void Insert(int index, T value)
     {
         // O(1)
@@ -77,10 +89,12 @@ public class LnkList<T> {
     }
 
     // O(1)
+
     public int Count() => 
         _count;
-    
+
     // O(n)
+
     public T[] ToArray()
     {
         if (_head == null)

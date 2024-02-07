@@ -3,6 +3,26 @@ namespace AAD.Tests;
 public class LnkListTests
 {
     [Fact]
+    public void Prepend_EmptyList()
+    {
+        var ll = new LnkList<string>();
+
+        ll.Prepend("A");
+        
+        Assert.Equal(new[] { "A" }, ll.ToArray());
+    }
+    
+    [Fact]
+    public void Prepend_Many()
+    {
+        var ll = LnkList<int>.From(1, 2, 3);
+
+        ll.Prepend(4);
+        
+        Assert.Equal(new[] { 4, 1, 2, 3 }, ll.ToArray());
+    }
+
+    [Fact]
     public void Add_Empty()
     {
         var ll = new LnkList<string>();
