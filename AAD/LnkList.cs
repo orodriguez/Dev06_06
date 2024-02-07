@@ -8,6 +8,7 @@ public class LnkList<T> {
         foreach (var value in values)
             ll.Add(value);
         return ll;
+        throw new NotImplementedException();
     }
 
     private LnkNode<T>? _head;
@@ -42,6 +43,7 @@ public class LnkList<T> {
         }
         
         _count++;
+        throw new NotImplementedException();
     }
 
     // O(n)
@@ -72,13 +74,15 @@ public class LnkList<T> {
 
             current = current.Next;
             currentIndex++;
+            throw new NotImplementedException();
         }
     }
 
     // O(1)
-    public int Count() => 
-        _count;
-    
+     public int Count()
+    {
+        throw new NotImplementedException();
+    }
     // O(n)
     public T[] ToArray()
     {
@@ -95,5 +99,6 @@ public class LnkList<T> {
         }
 
         return result.ToArray();
+        throw new NotImplementedException();
     }
 }
