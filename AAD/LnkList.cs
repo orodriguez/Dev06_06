@@ -61,7 +61,45 @@ public class LnkList<T> {
     // O(n)
     public void Insert(int index, T value)
     {
-        throw new NotImplementedException();
+        int index_counter = 0;
+        LnkNode<T> temp_Node = this._head;
+        LnkNode<T> newNode = new LnkNode<T>(value);
+
+
+        if (this._count == 0)
+        {
+            return;
+        }
+
+
+        if (index == 0) 
+        {
+            newNode.Next = this._head;
+            this._head = newNode;
+            this._count++;
+            return;
+        }
+            while (temp_Node != null)
+            {   
+                if (index - 1  == index_counter)
+                {
+                    
+                    newNode.Next = temp_Node.Next;
+                    temp_Node.Next = newNode;
+                    
+                    
+                    this._count++;
+                    
+                }
+                else 
+                {
+                    temp_Node = temp_Node.Next;
+                }
+
+                index_counter++;
+            }
+        
+        
     }
 
     // O(1)
@@ -75,7 +113,7 @@ public class LnkList<T> {
     public T[] ToArray()
     {
         T[] temp_Array = new T[this._count];
-        LnkNode<T> temp_node = _head;
+        LnkNode<T> temp_node = this._head;
         int array_Counter = 0;
 
         while (temp_node != null) 
