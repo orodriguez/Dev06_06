@@ -34,7 +34,7 @@ public class LnkList<T> {
     }
 
     // O(1)
-    //add First, lo que haremos sera agregar al inicio de la lista por defecto con este metodo.
+   
     public void Add(T element)
     {
         LnkNode<T> newNode = new LnkNode<T>(element);
