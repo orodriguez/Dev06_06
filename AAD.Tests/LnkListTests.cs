@@ -23,6 +23,31 @@ public class LnkListTests
     }
 
     [Fact]
+    public void Get_Empty()
+    {
+        var ll = new LnkList<string>();
+
+        Assert.Throws<IndexOutOfRangeException>(() => ll[0]);
+    }
+    
+    [Fact]
+    public void Get_Many()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        Assert.Equal("B", ll[1]);
+    }
+    
+    [Fact]
+    public void Get_OutOfRange()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        Assert.Throws<IndexOutOfRangeException>(() => ll[10]);
+        Assert.Throws<IndexOutOfRangeException>(() => ll[-2]);
+    }
+
+    [Fact]
     public void Add_Empty()
     {
         var ll = new LnkList<string>();

@@ -25,7 +25,32 @@ public class LnkList<T> {
         _last = last;
         _count = 0;
     }
-    
+
+    public T this[int index] => Get(index);
+
+    public T Get(int index)
+    {
+        if (_head == null)
+            throw new IndexOutOfRangeException();
+
+        if (index < 0 || index >= _count)
+            throw new IndexOutOfRangeException();
+
+        var currentNode = _head;
+        var currentIndex = 0;
+
+        while (currentNode != null)
+        {
+            if (currentIndex == index)
+                break;
+
+            currentIndex++;
+            currentNode = currentNode.Next;
+        }
+
+        return currentNode.Value;
+    }
+
     // O(1)
     public void Prepend(T value)
     {
@@ -39,6 +64,7 @@ public class LnkList<T> {
     }
 
     // O(1)
+
     public void Add(T element)
     {
         var newNode = new LnkNode<T>(element);
@@ -56,6 +82,7 @@ public class LnkList<T> {
     }
 
     // O(n)
+
 
     public void Insert(int index, T value)
     {
@@ -90,10 +117,12 @@ public class LnkList<T> {
 
     // O(1)
 
+
     public int Count() => 
         _count;
 
     // O(n)
+
 
     public T[] ToArray()
     {
