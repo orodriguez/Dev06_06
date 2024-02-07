@@ -66,7 +66,6 @@ public class LnkList<T> {
             if (currentIndex == index - 1)
             {
                 var newNode = new LnkNode<T>(value, current.Next);
-                newNode.Next = current.Next;
                 current.Next = newNode;
                 return;
             }
