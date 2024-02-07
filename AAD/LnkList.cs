@@ -1,10 +1,18 @@
+using System.Runtime.CompilerServices;
+
 namespace AAD;
 
 public class LnkList<T> {
     
     public static LnkList<T> From(params T[] values)
     {
-        throw new NotImplementedException();
+        int n = values.Length;
+        LnkList<T> listaLink = new LnkList<T>();
+        for (int i = 0; i < n; i++)
+        {
+            listaLink.Add(values[i]);
+        }
+        return listaLink;
     }
 
     private LnkNode<T>? _head;
@@ -25,9 +33,28 @@ public class LnkList<T> {
     }
 
     // O(1)
+    //add First, lo que haremos sera agregar al inicio de la lista por defecto con este metodo.
     public void Add(T element)
     {
-        throw new NotImplementedException();
+
+            
+        
+
+        if (this._count == 0)
+        {
+            LnkNode<T> newNode = new LnkNode<T>(element);
+            _head = newNode;
+            this._count++;
+        }
+        else
+        {
+            LnkNode<T> oldNode = this._head;
+            LnkNode<T> newNode = new LnkNode<T>(element, this._head);
+            this._head = newNode;
+            this._count++;
+        }
+            
+    
     }
 
     // O(n)
@@ -39,12 +66,23 @@ public class LnkList<T> {
     // O(1)
     public int Count()
     {
-        throw new NotImplementedException();
+
+        return this._count;
     }
 
     // O(n)
     public T[] ToArray()
     {
-        throw new NotImplementedException();
+        T[] temp_Array = new T[this._count];
+        LnkNode<T> temp_node = _head;
+        int array_Counter = 0;
+
+        while (temp_node != null) 
+        {
+            temp_Array[array_Counter] = temp_node.Value;
+            temp_node = temp_node.Next;
+            array_Counter++;
+        }
+        return temp_Array;
     }
 }

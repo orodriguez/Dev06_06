@@ -4,10 +4,12 @@ public class LnkNode<T>
 {
     public T Value { get; }
     public LnkNode<T>? Next { get; set; }
-
+    //esto es un constructor... que llama a otro constructor
     public LnkNode(T value) : this(value, null) => 
         Value = value;
-
+    //este es el segundo metodo constructor que recibe el valor y un siguiente nodo (en el caso que sea nuevo, deberia tener null en next,
+    //si el nodo no es nuevo y ya habia otro, deberan pasarnos el valor, y un puntero al siguiente nodo, esto, seria llamando a este metodo constructor
+    //y no al anterior.
     public LnkNode(T value, LnkNode<T>? next)
     {
         Value = value;
