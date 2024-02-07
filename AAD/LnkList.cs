@@ -8,7 +8,7 @@ public class LnkList<T> {
     {
         int n = values.Length;
         LnkList<T> listaLink = new LnkList<T>();
-        Array.Reverse(values);
+        //Array.Reverse(values);
         for (int i = 0; i < n; i++)
         {
             listaLink.Add(values[i]);
@@ -37,21 +37,21 @@ public class LnkList<T> {
     //add First, lo que haremos sera agregar al inicio de la lista por defecto con este metodo.
     public void Add(T element)
     {
-
-            
-        
+        LnkNode<T> newNode = new LnkNode<T>(element);
 
         if (this._count == 0)
         {
-            LnkNode<T> newNode = new LnkNode<T>(element);
-            _head = newNode;
+            
+            this._head = newNode;
+            this._last = newNode;
             this._count++;
         }
         else
         {
-            LnkNode<T> oldNode = this._head;
-            LnkNode<T> newNode = new LnkNode<T>(element, this._head);
-            this._head = newNode;
+            
+            
+            this._last.Next = newNode;
+            this._last = newNode;
             this._count++;
         }
             
