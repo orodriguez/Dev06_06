@@ -155,6 +155,54 @@ public class LnkListTests
 
         Assert.False(ll.Remove("D"));
     }
+    
+    [Fact]
+    public void RemoveAt_Empty()
+    {
+        var ll = new LnkList<string>();
+
+        Assert.Throws<IndexOutOfRangeException>(
+            () => ll.RemoveAt(0));
+    }
+    
+    [Fact]
+    public void RemoveAt_IndexOutOfRange()
+    {
+        var ll = LnkList<string>.From("A", "B");
+
+        Assert.Throws<IndexOutOfRangeException>(() => ll.RemoveAt(-1));
+        Assert.Throws<IndexOutOfRangeException>(() => ll.RemoveAt(1000));
+    }
+    
+    [Fact]
+    public void RemoveAt_OnlyOne()
+    {
+        var ll = LnkList<string>.From("One");
+
+        ll.RemoveAt(0);
+        
+        Assert.Equal(Array.Empty<string>(), ll.ToArray());
+    }
+    
+    [Fact]
+    public void RemoveAt_Many()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        ll.RemoveAt(1);
+        
+        Assert.Equal(new[] { "A", "C" }, ll.ToArray());
+    }
+    
+    [Fact]
+    public void RemoveAt_LastOfMany()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        ll.RemoveAt(2);
+        
+        Assert.Equal(new[] { "A", "B" }, ll.ToArray());
+    }
 
     [Fact]
     public void Count_Empty()

@@ -60,9 +60,10 @@ public class LnkList<T> where T : notnull
             _head = new LnkNode<T>(value);
             return;
         }
-        
+
         _head = new LnkNode<T>(value, next: _head);
     }
+
 
     // O(1)
 
@@ -78,12 +79,12 @@ public class LnkList<T> where T : notnull
             _last.Next = newNode;
             _last = newNode;
         }
-        
+
         _count++;
     }
 
-    // O(n)
 
+    // O(n)
 
     public void Insert(int index, T value)
     {
@@ -133,20 +134,51 @@ public class LnkList<T> where T : notnull
             if (currentNode.NextValueEquals(value))
             {
                 var nextNode = currentNode.Next;
-                currentNode.Next = nextNode.Next;
+                currentNode.Next = nextNode!.Next;
                 return true;
             }
+
             currentNode = currentNode.Next;
         }
+
         return false;
     }
 
+    public void RemoveAt(int index)
+    {
+        if (_head == null)
+            throw new IndexOutOfRangeException();
+
+        if (index < 0 || index >= _count)
+            throw new IndexOutOfRangeException();
+
+        if (index == 0)
+        {
+            _head = _head.Next;
+            return;
+        }
+        
+        var currentIndex = 0;
+        var currentNode = _head;
+        
+        while (currentNode != null)
+        {
+            if (currentIndex == index - 1)
+            {
+                currentNode.Next = currentNode.Next!.Next;
+                return;
+            }
+            
+            currentIndex++;
+            currentNode = currentNode.Next;
+        }
+    }
+
     // O(1)
-    public int Count() => 
+    public int Count() =>
         _count;
 
     // O(n)
-
     public T[] ToArray()
     {
         if (_head == null)
