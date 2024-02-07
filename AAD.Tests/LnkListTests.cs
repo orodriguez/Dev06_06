@@ -1,112 +1,129 @@
-namespace AAD.Tests;
+using System;
+using Xunit;
 
-public class LnkListTests
+namespace AAD.Tests
 {
-    [Fact]
-    public void Add_Empty()
+    public class SimpleLinkedListTests
     {
-        var ll = new LnkList<string>();
+        [Fact]
+        public void Add_ElementToEmptyList()
+        {
+            // Arrange
+            var linkedList = new LnkList<string>();
 
-        ll.Add("One");
-        
-        Assert.Equal(new[] { "One" }, ll.ToArray());
-    }
+            // Act
+            linkedList.Add("One");
 
-    [Fact]
-    public void Add_Many()
-    {
-        var ll = LnkList<int>.From(1, 2, 3);
+            // Assert
+            Assert.Equal(new[] { "One" }, linkedList.ToArray());
+            // Time Complexity: O(1)
+        }
 
-        ll.Add(4);
-        
-        Assert.Equal(new[] { 1, 2, 3, 4 }, ll.ToArray());
-    }
+        [Fact]
+        public void Add_MultipleElementsToList()
+        {
+            var linkedList = LnkList<int>.From(1, 2, 3);
 
-    [Fact]
-    public void Insert_Empty()
-    {
-        var ll = new LnkList<string>();
+            linkedList.Add(4);
 
-        ll.Insert(0, "Juan");
-        
-        Assert.Equal(Array.Empty<string>(), ll.ToArray());
-    }
+            Assert.Equal(new[] { 1, 2, 3, 4 }, linkedList.ToArray());
+            // Time Complexity: O(n) 
+        }
 
-    [Fact]
-    public void Insert_OneElement()
-    {
-        var ll = LnkList<string>.From("Pablo");
+        [Fact]
+        public void Insert_ElementInEmptyList()
+        {
+            var linkedList = new LnkList<string>();
 
-        ll.Insert(0, "Juan");
-        
-        Assert.Equal(new[] { "Juan", "Pablo" }, 
-            ll.ToArray());
-    }
+            linkedList.Insert(0, "Juan");
 
-    [Fact]
-    public void Insert_Many()
-    {
-        var ll = LnkList<string>.From("Juan", "Duarte");
+            Assert.Equal(Array.Empty<string>(), linkedList.ToArray());
+            // Time Complexity: O(1)
+        }
 
-        ll.Insert(1, "Pablo");
-        
-        Assert.Equal(new[] { "Juan", "Pablo", "Duarte" }, 
-            ll.ToArray());
-    }
+        [Fact]
+        public void Insert_ElementAtBeginning()
+        {
+            var linkedList = LnkList<string>.From("Pablo");
 
-    [Fact]
-    public void Count_Empty()
-    {
-        var ll = new LnkList<int>();
-        
-        Assert.Equal(0, ll.Count());
-    }
+            linkedList.Insert(0, "Juan");
 
-    [Fact]
-    public void Count_Many()
-    {
-        var ll = LnkList<int>.From(1, 2, 3, 4);
-        
-        Assert.Equal(4, ll.Count());
-    }
+            Assert.Equal(new[] { "Juan", "Pablo" }, linkedList.ToArray());
+            // Time Complexity: O(1)
+        }
 
-    [Fact]
-    public void From()
-    {
-        var ll = LnkList<int>.From(1, 2, 3);
-        
-        Assert.Equal(new[] { 1, 2, 3 }, ll.ToArray());
-    }
+        [Fact]
+        public void Insert_ElementAtSpecificPosition()
+        {
+            var linkedList = LnkList<string>.From("Juan", "Duarte");
 
-    [Fact]
-    public void ToArray_Empty()
-    { 
-        var ll = new LnkList<int>();
+            linkedList.Insert(1, "Pablo");
 
-        Assert.Equal(Array.Empty<int>(), ll.ToArray());
-    }
+            Assert.Equal(new[] { "Juan", "Pablo", "Duarte" }, linkedList.ToArray());
+            // Time Complexity: O(n)
+        }
 
-    [Fact]
-    public void ToArray_OneElement()
-    {
-        var ll = LnkList<int>.From(1);;
+        [Fact]
+        public void Count_EmptyList()
+        {
+            var linkedList = new LnkList<int>();
 
-        Assert.Equal(new[] { 1 }, ll.ToArray());
-    }
+            Assert.Equal(0, linkedList.Count());
+            // Time Complexity: O(1) 
+        }
 
-    [Fact]
-    public void ToArray_TwoElements()
-    {
-        var ll = LnkList<int>.From(1, 2);;
+        [Fact]
+        public void Count_ListWithElements()
+        {
+            var linkedList = LnkList<int>.From(1, 2, 3, 4);
 
-        Assert.Equal(new[] { 1, 2 }, ll.ToArray());
-    }
+            Assert.Equal(4, linkedList.Count());
+            // Time Complexity: O(1)
+        }
 
-    [Fact]
-    public void ToArray_Many()
-    {
-        var ll = LnkList<int>.From(1, 2, 3, 4);
+        [Fact]
+        public void ConvertFromArrayToList()
+        {
+            var linkedList = LnkList<int>.From(1, 2, 3);
 
-        Assert.Equal(new[] { 1, 2, 3, 4 }, ll.ToArray());
+            Assert.Equal(new[] { 1, 2, 3 }, linkedList.ToArray());
+            // Time Complexity: O(n)
+        }
+
+        [Fact]
+        public void ConvertEmptyListToArray()
+        { 
+            var linkedList = new LnkList<int>();
+
+            Assert.Equal(Array.Empty<int>(), linkedList.ToArray());
+            // Time Complexity: O(1)
+        }
+
+        [Fact]
+        public void ConvertListWithOneElementToArray()
+        {
+            var linkedList = LnkList<int>.From(1);
+
+            Assert.Equal(new[] { 1 }, linkedList.ToArray());
+            // Time Complexity: O(1)
+        }
+
+        [Fact]
+        public void ConvertListWithTwoElementsToArray()
+        {
+            var linkedList = LnkList<int>.From(1, 2);
+
+            Assert.Equal(new[] { 1, 2 }, linkedList.ToArray());
+            // Time Complexity: O(2)
+        }
+
+        [Fact]
+        public void ConvertListWithMultipleElementsToArray()
+        {
+            var linkedList = LnkList<int>.From(1, 2, 3, 4);
+
+            Assert.Equal(new[] { 1, 2, 3, 4 }, linkedList.ToArray());
+            // Time Complexity: O(n)
+        }
     }
 }
