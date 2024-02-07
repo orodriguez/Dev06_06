@@ -80,7 +80,7 @@ public class LnkList<T> {
     public int Count() => 
         _count;
     
-    // O(n)
+    // O(n))
     public T[] ToArray()
     {
         if (_head == null)
