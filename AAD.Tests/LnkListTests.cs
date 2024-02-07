@@ -100,6 +100,63 @@ public class LnkListTests
     }
 
     [Fact]
+    public void Remove_Empty()
+    {
+        var ll = new LnkList<string>();
+
+        var result = ll.Remove("Random");
+        
+        Assert.False(result);
+    }
+    [Fact]
+    public void Remove_FirstOfMany()
+    {
+        var ll = LnkList<string>.From("A", "B");
+
+        Assert.True(ll.Remove("A"));
+        
+        Assert.Equal(new[] { "B" }, ll.ToArray());
+    }
+    
+    [Fact]
+    public void Remove_OneAndOnly()
+    {
+        var ll = LnkList<string>.From("A");
+
+        Assert.True(ll.Remove("A"));
+        
+        Assert.Equal(Array.Empty<string>(), ll.ToArray());
+    }
+    
+    [Fact]
+    public void Remove_ManyRemoveInTheMiddle()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        Assert.True(ll.Remove("B"));
+        
+        Assert.Equal(new[] { "A", "C"}, ll.ToArray());
+    }
+    
+    [Fact]
+    public void Remove_ManyRemoveLast()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        Assert.True(ll.Remove("C"));
+        
+        Assert.Equal(new[] { "A", "B"}, ll.ToArray());
+    }
+    
+    [Fact]
+    public void Remove_ManyNotFound()
+    {
+        var ll = LnkList<string>.From("A", "B", "C");
+
+        Assert.False(ll.Remove("D"));
+    }
+
+    [Fact]
     public void Count_Empty()
     {
         var ll = new LnkList<int>();

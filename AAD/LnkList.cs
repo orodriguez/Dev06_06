@@ -1,6 +1,7 @@
 namespace AAD;
 
-public class LnkList<T> {
+public class LnkList<T> where T : notnull
+{
     public static LnkList<T> From(params T[] values)
     {
         var ll = new LnkList<T>();
@@ -115,14 +116,36 @@ public class LnkList<T> {
         }
     }
 
+    public bool Remove(T value)
+    {
+        if (_head == null)
+            return false;
+
+        if (_head.ValueEquals(value))
+        {
+            _head = _head.Next;
+            return true;
+        }
+
+        var currentNode = _head;
+        while (currentNode != null)
+        {
+            if (currentNode.NextValueEquals(value))
+            {
+                var nextNode = currentNode.Next;
+                currentNode.Next = nextNode.Next;
+                return true;
+            }
+            currentNode = currentNode.Next;
+        }
+        return false;
+    }
+
     // O(1)
-
-
     public int Count() => 
         _count;
 
     // O(n)
-
 
     public T[] ToArray()
     {
