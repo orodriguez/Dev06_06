@@ -1,3 +1,4 @@
+
 namespace AAD;
 
 public class LnkNode<T>
@@ -12,5 +13,15 @@ public class LnkNode<T>
     {
         Value = value;
         Next = next;
+    }
+
+    internal bool ValueEquals<T>(T value) where T : notnull
+    {
+        throw new NotImplementedException();
+    }
+
+    internal bool NextValueEquals<T>(T value) where T : notnull
+    {
+        throw new NotImplementedException();
     }
 }
