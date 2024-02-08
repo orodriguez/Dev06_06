@@ -1,13 +1,17 @@
 namespace AAD;
 
-public class LnkList<T> where T : notnull
-{
+public class LnkList<T> {
+    
     public static LnkList<T> From(params T[] values)
     {
+       
         var ll = new LnkList<T>();
+
         foreach (var value in values)
             ll.Add(value);
+
         return ll;
+
     }
 
     private LnkNode<T>? _head;
@@ -27,172 +31,71 @@ public class LnkList<T> where T : notnull
         _count = 0;
     }
 
-    public T this[int index] => Get(index);
-
-    public T Get(int index)
-    {
-        if (_head == null)
-            throw new IndexOutOfRangeException();
-
-        if (index < 0 || index >= _count)
-            throw new IndexOutOfRangeException();
-
-        var currentNode = _head;
-        var currentIndex = 0;
-
-        while (currentNode != null)
-        {
-            if (currentIndex == index)
-                break;
-
-            currentIndex++;
-            currentNode = currentNode.Next;
-        }
-
-        return currentNode.Value;
-    }
-
     // O(1)
-    public void Prepend(T value)
-    {
-        if (_head == null)
-        {
-            _head = new LnkNode<T>(value);
-            return;
-        }
-
-        _head = new LnkNode<T>(value, next: _head);
-    }
-
-
-    // O(1)
-
     public void Add(T element)
     {
-        var newNode = new LnkNode<T>(element);
-
-        // O(1)
-        if (_head == null)
-            _head = _last = newNode;
-        else // O(1)
-        {
-            _last.Next = newNode;
-            _last = newNode;
-        }
-
+        var newNode= new LnkNode<T>(element);
+        
+        if(_head == null)
+            _head =  _last = newNode;
+        else
+            _last = _last.Next = newNode;
+        
         _count++;
-    }
 
+    }
 
     // O(n)
-
     public void Insert(int index, T value)
     {
-        // O(1)
-        if (_count == 0)
-            return;
+        var newNode = new LnkNode<T>(value);
 
-        // O(1)
-        if (index == 0)
-        {
-            var newNode = new LnkNode<T>(value, _head);
+        if(index == 0){
+            newNode.Next = _head;
             _head = newNode;
+            _count++;
             return;
         }
 
-        var currentIndex = 0;
-        var current = _head;
-        while (current != null)
-        {
-            if (currentIndex == index - 1)
-            {
-                var newNode = new LnkNode<T>(value, current.Next);
-                newNode.Next = current.Next;
-                current.Next = newNode;
+        if(index < 0 || index > _count - 1)
+            throw new IndexOutOfRangeException();
+
+        int iterator = 1;
+        var currentNode = _head;
+
+        while(currentNode.Next != null){
+            if(iterator == index){
+                newNode.Next = currentNode.Next;
+                currentNode.Next = newNode;
+                _count++;
                 return;
             }
 
-            current = current.Next;
-            currentIndex++;
-        }
-    }
-
-    public bool Remove(T value)
-    {
-        if (_head == null)
-            return false;
-
-        if (_head.ValueEquals(value))
-        {
-            _head = _head.Next;
-            return true;
-        }
-
-        var currentNode = _head;
-        while (currentNode != null)
-        {
-            if (currentNode.NextValueEquals(value))
-            {
-                var nextNode = currentNode.Next;
-                currentNode.Next = nextNode!.Next;
-                return true;
-            }
-
-            currentNode = currentNode.Next;
-        }
-
-        return false;
-    }
-
-    public void RemoveAt(int index)
-    {
-        if (_head == null)
-            throw new IndexOutOfRangeException();
-
-        if (index < 0 || index >= _count)
-            throw new IndexOutOfRangeException();
-
-        if (index == 0)
-        {
-            _head = _head.Next;
-            return;
-        }
-        
-        var currentIndex = 0;
-        var currentNode = _head;
-        
-        while (currentNode != null)
-        {
-            if (currentIndex == index - 1)
-            {
-                currentNode.Next = currentNode.Next!.Next;
-                return;
-            }
-            
-            currentIndex++;
+            iterator++;
             currentNode = currentNode.Next;
         }
     }
 
     // O(1)
-    public int Count() =>
-        _count;
+    public int Count()
+    {
+        return _count;
+    }
 
-    // O(n)
     public T[] ToArray()
     {
-        if (_head == null)
+        var elementArray = new List<T>();
+
+        if(_head == null)
             return Array.Empty<T>();
 
-        var result = new List<T>();
-
-        var current = _head;
-        while (current != null)
-        {
-            result.Add(current.Value);
-            current = current.Next;
+        var currentNode = _head;
+        
+        while(currentNode != null){
+            elementArray.Add(currentNode.Value);
+            currentNode = currentNode.Next;
         }
 
-        return result.ToArray();
+        return elementArray.ToArray();
     }
 }
