@@ -180,22 +180,25 @@ public class LnkList<T> where T : notnull
         _count;
 
     // O(n)
-    public T[] ToArray()
+   
+public T[] ToArray()
+{
+    if (_head == null)
+        return Array.Empty<T>();
+
+    var result = new T[_count]; // usar el tamaño de la lista enlazada
+
+    var current = _head;
+    var i = 0; // usar un índice para recorrer el arreglo
+    while (current != null)
     {
-        if (_head == null)
-            return Array.Empty<T>();
-
-        var result = new List<T>();
-
-        var current = _head;
-        while (current != null)
-        {
-            result.Add(current.Value);
-            current = current.Next;
-        }
-
-        return result.ToArray();
+        result[i] = current.Value; // asignar el valor al arreglo
+        current = current.Next;
+        i++; // incrementar el índice
     }
+
+    return result;
+}
 
     
 }
