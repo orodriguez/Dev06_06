@@ -56,12 +56,12 @@ public class LnkList<T> where T : notnull
     public void Prepend(T value)
     {
         if (_head == null)
-        {
-            _head = new LnkNode<T>(value);
-            return;
-        }
-
-        _head = new LnkNode<T>(value, next: _head);
+            _last = _head = new LnkNode<T>(value);
+        else
+            _head = new LnkNode<T>(value, next: _head);
+            
+        _count++;
+        return;
     }
 
 
@@ -125,6 +125,7 @@ public class LnkList<T> where T : notnull
         if (_head.ValueEquals(value))
         {
             _head = _head.Next;
+            _count--;
             return true;
         }
 
@@ -135,6 +136,7 @@ public class LnkList<T> where T : notnull
             {
                 var nextNode = currentNode.Next;
                 currentNode.Next = nextNode!.Next;
+                _count--;
                 return true;
             }
 
