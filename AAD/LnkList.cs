@@ -57,11 +57,14 @@ public class LnkList<T> where T : notnull
     {
         if (_head == null)
         {
-            _head = new LnkNode<T>(value);
+            _head = _last = new LnkNode<T>(value);
+            _count++;
+
             return;
         }
 
         _head = new LnkNode<T>(value, next: _head);
+        _count++;
     }
 
 
@@ -97,6 +100,7 @@ public class LnkList<T> where T : notnull
         {
             var newNode = new LnkNode<T>(value, _head);
             _head = newNode;
+            _count++;
             return;
         }
 
@@ -109,6 +113,14 @@ public class LnkList<T> where T : notnull
                 var newNode = new LnkNode<T>(value, current.Next);
                 newNode.Next = current.Next;
                 current.Next = newNode;
+
+                if (index == _count)
+                {
+                    _last = newNode;
+                }
+
+                _count++;
+
                 return;
             }
 
@@ -125,16 +137,25 @@ public class LnkList<T> where T : notnull
         if (_head.ValueEquals(value))
         {
             _head = _head.Next;
+            _count--;
             return true;
         }
 
         var currentNode = _head;
         while (currentNode != null)
         {
+
             if (currentNode.NextValueEquals(value))
             {
                 var nextNode = currentNode.Next;
                 currentNode.Next = nextNode!.Next;
+                _count--;
+
+                if (nextNode == _last)
+                {
+                    _last = currentNode;
+                }
+
                 return true;
             }
 
@@ -154,24 +175,33 @@ public class LnkList<T> where T : notnull
 
         if (index == 0)
         {
-            _head = _head.Next;
+            _head = _last = _head.Next;
+            _count--;
             return;
         }
-        
+
         var currentIndex = 0;
         var currentNode = _head;
-        
+
         while (currentNode != null)
         {
             if (currentIndex == index - 1)
             {
                 currentNode.Next = currentNode.Next!.Next;
+
+                if (index == _count - 1)
+                {
+                    _last = currentNode;
+                }
+
+                _count--;
                 return;
             }
-            
+
             currentIndex++;
             currentNode = currentNode.Next;
         }
+
     }
 
     // O(1)
@@ -200,7 +230,7 @@ public class LnkList<T> where T : notnull
     {
         if (_last == null)
             throw new InvalidOperationException();
-        
+
         return _last.Value;
     }
 }
