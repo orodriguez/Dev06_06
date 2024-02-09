@@ -1,6 +1,6 @@
 namespace AAD;
 
-public class HashMap<TKey, TValue>
+public class HashMap<TKey, TValue> where TKey : notnull
 {
     private readonly Bucket[] _buckets;
     private readonly int _capacity;
@@ -44,31 +44,36 @@ public class HashMap<TKey, TValue>
     }
     private class Bucket
     {
-        private readonly List<KeyValuePair<TKey, TValue>> _values;
+        private readonly List<KeyValuePair<TKey, TValue>> _pairs;
         private bool _isEmpty;
         public bool isEmpty => _isEmpty;
 
         public Bucket()
         {
-            _values = new List<KeyValuePair<TKey, TValue>>();
+            _pairs = new List<KeyValuePair<TKey, TValue>>();
             _isEmpty = true;
         }
 
         public TValue Get(TKey key)
         {
-            var exists = _values.Any(pair => pair.Key.Equals(key));
+            var exists = _pairs.Any(pair => pair.Key.Equals(key));
             
             if (!exists)
                 throw new KeyNotFoundException();
                 
-            var pair = _values.First(pair => pair.Key.Equals(key));
+            var pair = _pairs.First(pair => pair.Key.Equals(key));
 
             return pair.Value;
         }
 
         public void Add(TKey key, TValue value)
         {
-            _values.Add(
+            var index = _pairs.FindIndex(
+                pair => pair.Key.Equals(key));
+            if (index != -1) 
+                _pairs.RemoveAt(index);
+
+            _pairs.Add(
                 new KeyValuePair<TKey, TValue>(key, value));
             
             _isEmpty = false;

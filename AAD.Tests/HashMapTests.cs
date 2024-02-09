@@ -36,4 +36,15 @@ public class HashMapTests
         Assert.Equal(2, hm["B"]);
         Assert.Equal(3, hm["C"]);
     }
+    
+    [Fact]
+    public void Set_ReplaceKey()
+    {
+        var hm = new HashMap<string, int>(capacity: 2);
+
+        hm["A"] = 1;
+        hm["A"] = 2;
+
+        Assert.Equal(2, hm["A"]);
+    }
 }
