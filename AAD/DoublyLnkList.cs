@@ -4,20 +4,34 @@ public class DoublyLnkList<T> where T : notnull
 {
     public static DoublyLnkList<T> From(params T[] values)
     {
-        throw new NotImplementedException();
+        var ll = new LnkList<T>();
+        foreach (var value in values)
+            ll.Add(value);
+        return ll;
     }
+
+    private DoubleLnkNode<T>? _head;
+
+    private DoubleLnkNode<T>? _last;
+
+    private int _count;
+
+
 
     public T this[int index] => throw new NotImplementedException();
 
     public void Prepend(T value)
     {
-        throw new NotImplementedException();
+        if (_head == null)
+            _last = _head = new DoubleLnkNode<T>(value);
+        else
+            _head = new DubleLnkNode<T>(value, next: _head);
+            
+        _count++;
+        return;
     }
 
-    public int Count()
-    {
-        throw new NotImplementedException();
-    }
+    public int Count() => _count;
 
     public void Add(T value)
     {
