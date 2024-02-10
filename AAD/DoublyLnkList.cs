@@ -9,7 +9,14 @@ public class DoublyLnkList<T> where T : notnull
 
     public static DoublyLnkList<T> From(params T[] values)
     {
-        throw new NotImplementedException();
+        int n = values.Length;
+        DoublyLnkList<T> dblList = new DoublyLnkList<T>();
+
+        for (int i = 0; i < n; i++) 
+        {
+            dblList.Add(values[i]);
+        }
+        return dblList;
     }
 
     public T this[int index] => throw new NotImplementedException();
