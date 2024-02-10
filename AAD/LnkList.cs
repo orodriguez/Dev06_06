@@ -125,6 +125,7 @@ public class LnkList<T> where T : notnull
         if (_head.ValueEquals(value))
         {
             _head = _head.Next;
+            this._count--;  // add this line to reduce the head, when element is actually the head
             return true;
         }
 
@@ -135,6 +136,7 @@ public class LnkList<T> where T : notnull
             {
                 var nextNode = currentNode.Next;
                 currentNode.Next = nextNode!.Next;
+                this._count--;
                 return true;
             }
 
