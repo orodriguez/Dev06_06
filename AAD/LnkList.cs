@@ -1,13 +1,19 @@
+using System.Runtime.CompilerServices;
+
 namespace AAD;
 
 public class LnkList<T> where T : notnull
 {
     public static LnkList<T> From(params T[] values)
     {
-        var ll = new LnkList<T>();
-        foreach (var value in values)
-            ll.Add(value);
-        return ll;
+        int n = values.Length;
+        LnkList<T> listaLink = new LnkList<T>();
+        //Array.Reverse(values);
+        for (int i = 0; i < n; i++)
+        {
+            listaLink.Add(values[i]);
+        }
+        return listaLink;
     }
 
     private LnkNode<T>? _head;
@@ -69,18 +75,25 @@ public class LnkList<T> where T : notnull
 
     public void Add(T element)
     {
-        var newNode = new LnkNode<T>(element);
+        LnkNode<T> newNode = new LnkNode<T>(element);
 
-        // O(1)
-        if (_head == null)
-            _head = _last = newNode;
-        else // O(1)
+        if (this._count == 0)
         {
-            _last.Next = newNode;
-            _last = newNode;
+            
+            this._head = newNode;
+            this._last = newNode;
+            this._count++;
         }
-
-        _count++;
+        else
+        {
+            
+            
+            this._last.Next = newNode;
+            this._last = newNode;
+            this._count++;
+        }
+            
+    
     }
 
 
@@ -88,33 +101,45 @@ public class LnkList<T> where T : notnull
 
     public void Insert(int index, T value)
     {
-        // O(1)
-        if (_count == 0)
-            return;
+        int index_counter = 0;
+        LnkNode<T> temp_Node = this._head;
+        LnkNode<T> newNode = new LnkNode<T>(value);
 
-        // O(1)
-        if (index == 0)
+
+        if (this._count == 0)
         {
-            var newNode = new LnkNode<T>(value, _head);
-            _head = newNode;
             return;
         }
 
-        var currentIndex = 0;
-        var current = _head;
-        while (current != null)
+
+        if (index == 0) 
         {
-            if (currentIndex == index - 1)
-            {
-                var newNode = new LnkNode<T>(value, current.Next);
-                newNode.Next = current.Next;
-                current.Next = newNode;
-                return;
+            newNode.Next = this._head;
+            this._head = newNode;
+            this._count++;
+            return;
+        }
+            while (temp_Node != null)
+            {   
+                if (index - 1  == index_counter)
+                {
+                    
+                    newNode.Next = temp_Node.Next;
+                    temp_Node.Next = newNode;
+                    
+                    
+                    this._count++;
+                    
+                }
+                else 
+                {
+                    temp_Node = temp_Node.Next;
+                }
+
+                index_counter++;
             }
-
-            current = current.Next;
-            currentIndex++;
-        }
+        
+        
     }
 
     public bool Remove(T value)
@@ -177,25 +202,26 @@ public class LnkList<T> where T : notnull
     }
 
     // O(1)
-    public int Count() =>
-        _count;
+    public int Count()
+    {
+
+        return this._count;
+    }
 
     // O(n)
     public T[] ToArray()
     {
-        if (_head == null)
-            return Array.Empty<T>();
+        T[] temp_Array = new T[this._count];
+        LnkNode<T> temp_node = this._head;
+        int array_Counter = 0;
 
-        var result = new List<T>();
-
-        var current = _head;
-        while (current != null)
+        while (temp_node != null) 
         {
-            result.Add(current.Value);
-            current = current.Next;
+            temp_Array[array_Counter] = temp_node.Value;
+            temp_node = temp_node.Next;
+            array_Counter++;
         }
-
-        return result.ToArray();
+        return temp_Array;
     }
 
     public T Last()
