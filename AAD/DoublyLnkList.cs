@@ -38,6 +38,15 @@ public class DoublyLnkList<T> where T : notnull
                 this._count++;
                 return;
             }
+
+        LnkNode<T> temp_Last = this._last;
+        newNode.Previous = this._last;
+        this._last.Next = newNode;
+        this._last = newNode;
+        this._count++;
+        return;
+
+
     }
 
     public void Insert(int index, T value)
@@ -62,7 +71,16 @@ public class DoublyLnkList<T> where T : notnull
 
     public T[] ToArray()
     {
-        throw new NotImplementedException();
+        LnkNode<T> tempNode = this._head;
+        T[] tempArray = new T[this._count];
+        for (int i = 0; i < this._count; i++)
+        {
+            tempArray[i] = tempNode.Value;
+            tempNode = tempNode.Next;
+        
+        }
+
+        return tempArray;
     }
 
     public T[] ToReversedArray()
