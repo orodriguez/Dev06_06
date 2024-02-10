@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AAD",
+    "\\AAD.Tests"
   ],
-  "SelectedNode": "\\Dev06_06.sln",
+  "SelectedNode": "\\AAD.Tests\\HashMapTest.cs",
   "PreviewInSolutionExplorer": false
 }
