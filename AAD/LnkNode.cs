@@ -4,6 +4,7 @@ public class LnkNode<T> where T : notnull
 {
     public T Value { get; }
     public LnkNode<T>? Next { get; set; }
+    public LnkNode<T>? Previous { get; set; }
     //esto es un constructor... que llama a otro constructor
     public LnkNode(T value) : this(value, null) => 
         Value = value;

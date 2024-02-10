@@ -2,6 +2,11 @@ namespace AAD;
 
 public class DoublyLnkList<T> where T : notnull
 {
+    private int _count;
+    private LnkNode<T>? _head;
+    private LnkNode<T>? _last;
+
+
     public static DoublyLnkList<T> From(params T[] values)
     {
         throw new NotImplementedException();
@@ -16,7 +21,7 @@ public class DoublyLnkList<T> where T : notnull
 
     public int Count()
     {
-        throw new NotImplementedException();
+        return this._count;
     }
 
     public void Add(T value)
