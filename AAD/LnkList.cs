@@ -161,7 +161,7 @@ public class LnkList<T> where T : notnull
             {
                 var nextNode = currentNode.Next;
                 currentNode.Next = nextNode!.Next;
-                this._count--;
+                this._count--; //add a line to count less when lsit not empty
                 return true;
             }
 
