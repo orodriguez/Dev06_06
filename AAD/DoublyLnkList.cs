@@ -26,7 +26,18 @@ public class DoublyLnkList<T> where T : notnull
 
     public void Add(T value)
     {
-        throw new NotImplementedException();
+        LnkNode<T> newNode = new LnkNode<T>(value);
+
+        if (this._count == 0 && (this._head == null && this._last == null))
+            {
+                this._head = newNode;
+                this._last = newNode;
+                this._head.Next = this._last;
+                this._last.Previous = this._head;    
+                
+                this._count++;
+                return;
+            }
     }
 
     public void Insert(int index, T value)
