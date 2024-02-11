@@ -148,6 +148,14 @@ public class DoublyLnkList<T> where T : notnull
                 return true;
         }
 
+        if (this._head.Value.Equals(value))
+        {
+            this._head = this._head.Next;
+            this._head.Previous = null;
+            this._count--;
+            return true;
+        
+        }
         while (currentNode != null) 
         {
             if(currentNode.Value.Equals(value))
@@ -251,6 +259,22 @@ public class DoublyLnkList<T> where T : notnull
 
     public T[] ToReversedArray()
     {
-        throw new NotImplementedException();
+        if (this._count == 0 && this._head == null)
+        {
+            return new T[0];
+        
+        }
+
+        LnkNode<T> currentLast = this._last;
+        T[] reverseArray = new T[this._count];
+        int counter = 0;
+        for (int i = 0; i < this._count;i++)
+        {
+            reverseArray[i] = currentLast.Value;
+            currentLast = currentLast.Previous;
+
+        
+        }
+        return reverseArray;
     }
 }
