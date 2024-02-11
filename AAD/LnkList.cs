@@ -147,7 +147,7 @@ public class LnkList<T> where T : notnull
         return false;
     }
 
-    public void RemoveAt(int index)
+    public bool RemoveAt(int index)
     {
         if (_head == null)
             throw new IndexOutOfRangeException();
@@ -155,26 +155,38 @@ public class LnkList<T> where T : notnull
         if (index < 0 || index >= _count)
             throw new IndexOutOfRangeException();
 
-        if (index == 0)
+        if (_head.Next == null)
         {
-            _head = _head.Next;
-            return;
+            _head = _last = null;
+            _count--;
+            return true;
         }
+
+        var nodeBefore = GetNode(index - 1);
+        var nodeToRemove = nodeBefore.Next;
         
+        if (nodeToRemove.IsLast)
+            _last = nodeBefore;
+        
+        nodeBefore.Link(nodeToRemove.Next);
+        _count--;
+        return true;
+    }
+
+        private LnkNode<T>? GetNode(int index)
+    {
         var currentIndex = 0;
         var currentNode = _head;
-        
         while (currentNode != null)
         {
-            if (currentIndex == index - 1)
-            {
-                currentNode.Next = currentNode.Next!.Next;
-                return;
-            }
+            if (currentIndex == index)
+                return currentNode;
             
             currentIndex++;
             currentNode = currentNode.Next;
         }
+
+        return null;
     }
 
     // O(1)
