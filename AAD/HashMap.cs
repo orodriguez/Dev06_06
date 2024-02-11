@@ -42,6 +42,14 @@ public class HashMap<TKey, TValue> where TKey : notnull
         var hashCode = Math.Abs(key.GetHashCode());
         return hashCode % _capacity;
     }
+
+    public void Remove(TKey key)
+    {
+        var index = Hash(key);
+        var bucket = _buckets[index];
+        bucket.Remove(key);
+    }
+
     private class Bucket
     {
         private readonly List<KeyValuePair<TKey, TValue>> _pairs;
@@ -77,6 +85,14 @@ public class HashMap<TKey, TValue> where TKey : notnull
                 new KeyValuePair<TKey, TValue>(key, value));
             
             _isEmpty = false;
+        }
+
+        public void Remove(TKey key)
+        {
+            var index = _pairs.FindIndex(
+                pair => pair.Key.Equals(key));
+            
+            _pairs.RemoveAt(index);
         }
     }
 }

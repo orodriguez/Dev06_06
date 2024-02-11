@@ -47,4 +47,16 @@ public class HashMapTests
 
         Assert.Equal(2, hm["A"]);
     }
+
+    [Fact]
+    public void Remove()
+    {
+        var hm = new HashMap<DateTime, double>();
+
+        var now = DateTime.Now;
+        hm[now] = 58.5d;
+        hm.Remove(now);
+
+        Assert.Throws<KeyNotFoundException>(() => hm[now]);
+    }
 }
