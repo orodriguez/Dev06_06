@@ -101,10 +101,14 @@ public class DoublyLnkList<T> where T : notnull
     {
         LnkNode<T> currentNode = this._head;
 
-        /*if (this._head.Value == value)
+        if(this._last.Value.Equals(value))
             {
-        
-            }*/
+               LnkNode<T> previous = this._last.Previous;
+                previous.Next = null;
+                this._last = previous;
+                this._count--;
+                return true;
+        }
 
         while (currentNode != null) 
         {
@@ -126,7 +130,58 @@ public class DoublyLnkList<T> where T : notnull
 
     public void RemoveAt(int index)
     {
-        throw new NotImplementedException();
+        
+        LnkNode<T> currentNode = this._head;
+        if (this._count == 0)
+        {
+            return;
+        }
+
+        if (index >= this._count || index < 0)
+        {
+            throw new IndexOutOfRangeException("Index is Out of range");
+        }
+
+        if (index == 0)
+        {
+            this._head = null;
+            this._last = null;
+            this._count--;
+            return;
+        }
+
+        
+        if (index == this._count - 1) 
+        {
+            LnkNode<T> previous = this._last.Previous;
+            previous.Next = null;
+            this._last = previous;
+            this._count--;
+            return;
+        }
+
+        int counter = 0;
+        int n = this._count;
+
+
+
+        for (int i = 0; i < n-1; i++)
+        {
+            if (counter == index)
+            {
+                LnkNode<T> previous = currentNode.Previous;
+                LnkNode<T> next = currentNode.Next;
+
+                previous.Next = next;
+                next.Previous = previous;
+                this._count--;
+                return;
+            }
+
+            currentNode = currentNode.Next;
+            counter++;
+
+        }
     }
 
     public T Last()
@@ -136,6 +191,10 @@ public class DoublyLnkList<T> where T : notnull
 
     public T[] ToArray()
     {
+        /*if (this._head == null) 
+        {
+            return new T[0];
+        }*/
         LnkNode<T> tempNode = this._head;
         T[] tempArray = new T[this._count];
         for (int i = 0; i < this._count; i++)
