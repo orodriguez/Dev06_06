@@ -143,8 +143,8 @@ public class LnkListTests
         var ll = LnkList<string>.From("A", "B", "C");
 
         Assert.True(ll.Remove("C"));
-
-        AssertElementsCountAndLast(new[] { "A", "B" }, ll);
+       
+       AssertElementsCountAndLast(new[] { "A", "B" }, ll);
     }
 
     [Fact]
@@ -279,6 +279,7 @@ public class LnkListTests
 
     private void AssertElementsCountAndLast<T>(T[] values, LnkList<T> ll) where T : notnull
     {
+        
         Assert.Equal(values, ll.ToArray());
         Assert.Equal(values.Length, ll.Count());
         if (values.Length > 0)

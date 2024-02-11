@@ -160,6 +160,41 @@ public class LnkList<T> where T : notnull
             return true;
         }
 
+        if (this._last.Value.Equals(value))
+        {
+            if (this._count == 1)
+            {
+                this._head = null;
+                this._last = null;
+            }
+            else 
+            {
+                var tempNode = this._head;
+                while (tempNode.Next != this._last)
+                {
+                    tempNode = tempNode.Next;
+                }
+                tempNode.Next = null;
+                this._last = tempNode;
+
+            }
+            this._count--;
+            return true;       
+
+            
+            /*LnkNode<T> tempNode = this._head; 
+            for (int i = 0; i < this._count; i++)
+            {
+                if (tempNode.Next.Value.Equals(value))
+                {
+                    tempNode.Next = tempNode.Next.Next;
+                    this._count--;
+                    return true;
+                }
+            }*/
+
+        }
+
         var currentNode = _head;
         while (currentNode != null)
         {
@@ -246,7 +281,7 @@ public class LnkList<T> where T : notnull
             array_Counter++;
         }*/
 
-        for (int i = 0; i <= this._count - 1; i++)
+        for (int i = 0; i <= this._count -1; i++)
         {
             temp_Array[i] = temp_node.Value;
             temp_node = temp_node.Next;
