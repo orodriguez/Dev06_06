@@ -56,7 +56,27 @@ public class DoublyLnkList<T> where T : notnull
 
     public void Prepend(T value)
     {
-        throw new NotImplementedException();
+        LnkNode<T> newNode = new LnkNode<T>(value);
+        if (this._count == 0) 
+        {
+            this._head = newNode;
+            this._last = newNode;
+            this._head.Next = this._last;
+            this._last.Previous = this._head;
+            this._count++;
+            return;
+        }
+
+        LnkNode<T> temp_Node = this._head;
+        
+        newNode.Next = this._head;
+        this._head.Previous = newNode;
+        this._head = newNode;
+        this._count++;
+        return;
+
+
+
     }
 
     public int Count()
