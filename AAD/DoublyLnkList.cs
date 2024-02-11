@@ -99,7 +99,29 @@ public class DoublyLnkList<T> where T : notnull
 
     public bool Remove(T value)
     {
-        throw new NotImplementedException();
+        LnkNode<T> currentNode = this._head;
+
+        /*if (this._head.Value == value)
+            {
+        
+            }*/
+
+        while (currentNode != null) 
+        {
+            if(currentNode.Value.Equals(value))
+            {
+                LnkNode<T> previous = currentNode.Previous;
+                LnkNode<T> next = currentNode.Next;
+
+                previous.Next = next;
+                next.Previous = previous;
+                this._count--;
+                return true;
+            }
+            currentNode = currentNode.Next;
+        
+        }
+        return false;
     }
 
     public void RemoveAt(int index)
