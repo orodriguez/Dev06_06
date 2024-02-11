@@ -19,7 +19,40 @@ public class DoublyLnkList<T> where T : notnull
         return dblList;
     }
 
-    public T this[int index] => throw new NotImplementedException();
+    public T this[int index]
+    {
+        get 
+        {
+            //T data = null;
+
+            if (index == 0 && this._head!=null)
+            {
+                return this._head.Value;
+            }
+            else if(index == this._count - 1 && this._last!=null)
+            {
+                return this._last.Value;
+            }
+
+            
+
+            LnkNode<T> current = this._head;
+            int counter = 0;
+            while (current != null) 
+            {
+                if (counter == index) 
+                {
+                    return current.Value;
+                }
+                counter++;
+                current = current.Next;
+            }
+
+            throw new IndexOutOfRangeException();
+
+        }
+    
+    }
 
     public void Prepend(T value)
     {
@@ -100,6 +133,11 @@ public class DoublyLnkList<T> where T : notnull
     public bool Remove(T value)
     {
         LnkNode<T> currentNode = this._head;
+
+        if (this._head == null && this._last == null) 
+        {
+            return false;
+        }
 
         if(this._last.Value.Equals(value))
             {
@@ -186,6 +224,10 @@ public class DoublyLnkList<T> where T : notnull
 
     public T Last()
     {
+        if (this._count==0 && this._last == null)
+        {
+            throw new InvalidOperationException();
+        }
         return this._last.Value;
     }
 
