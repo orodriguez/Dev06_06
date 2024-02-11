@@ -61,13 +61,15 @@ public class LnkList<T> where T : notnull
     // O(1)
     public void Prepend(T value)
     {
-        if (_head == null)
+        if (this._head == null)
         {
             _head = new LnkNode<T>(value);
+            this._count++;
             return;
         }
 
-        _head = new LnkNode<T>(value, next: _head);
+        this._head = new LnkNode<T>(value, next: _head);
+        this._count++;
     }
 
 
