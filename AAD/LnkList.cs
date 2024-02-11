@@ -2,6 +2,18 @@ namespace AAD;
 
 public class LnkList<T> where T : notnull
 {
+    private LnkNode<T>? _head;
+    private LnkNode<T>? _last;
+    private int _count;
+    public LnkList() : this(head: null, last: null)
+    {
+    }
+    private LnkList(LnkNode<T>? head, LnkNode<T>? last)
+    {
+        _head = head;
+        _last = last;
+        _count = 0;
+    }
     public static LnkList<T> From(params T[] values)
     {
         var ll = new LnkList<T>();
@@ -10,22 +22,6 @@ public class LnkList<T> where T : notnull
         return ll;
     }
 
-    private LnkNode<T>? _head;
-
-    private LnkNode<T>? _last;
-
-    private int _count;
-
-    public LnkList() : this(head: null, last: null)
-    {
-    }
-
-    private LnkList(LnkNode<T>? head, LnkNode<T>? last)
-    {
-        _head = head;
-        _last = last;
-        _count = 0;
-    }
 
     public T this[int index] => Get(index);
 
@@ -55,13 +51,12 @@ public class LnkList<T> where T : notnull
     // O(1)
     public void Prepend(T value)
     {
-        if (_head == null)
-        {
-            _head = new LnkNode<T>(value);
-            return;
-        }
-
-        _head = new LnkNode<T>(value, next: _head);
+        _head = new LnkNode<T>(value, _head);
+        
+        if (_head.IsLast)
+            _last = _head;
+        
+        _count++;
     }
 
 
@@ -96,7 +91,9 @@ public class LnkList<T> where T : notnull
         if (index == 0)
         {
             var newNode = new LnkNode<T>(value, _head);
+            _last = _head;
             _head = newNode;
+            _count++;
             return;
         }
 
@@ -109,6 +106,7 @@ public class LnkList<T> where T : notnull
                 var newNode = new LnkNode<T>(value, current.Next);
                 newNode.Next = current.Next;
                 current.Next = newNode;
+                _count++;
                 return;
             }
 
@@ -125,16 +123,21 @@ public class LnkList<T> where T : notnull
         if (_head.ValueEquals(value))
         {
             _head = _head.Next;
+            _count--;
             return true;
         }
 
         var currentNode = _head;
         while (currentNode != null)
         {
-            if (currentNode.NextValueEquals(value))
+            var nextNode = currentNode.Next;
+
+            if (nextNode != null && nextNode.ValueEquals(value))
             {
-                var nextNode = currentNode.Next;
-                currentNode.Next = nextNode!.Next;
+                currentNode.Link(nextNode.Next);
+                if (currentNode.IsLast) 
+                    _last = currentNode;
+                _count -= 1;
                 return true;
             }
 
@@ -144,7 +147,7 @@ public class LnkList<T> where T : notnull
         return false;
     }
 
-    public void RemoveAt(int index)
+    public bool RemoveAt(int index)
     {
         if (_head == null)
             throw new IndexOutOfRangeException();
@@ -152,26 +155,38 @@ public class LnkList<T> where T : notnull
         if (index < 0 || index >= _count)
             throw new IndexOutOfRangeException();
 
-        if (index == 0)
+        if (_head.Next == null)
         {
-            _head = _head.Next;
-            return;
+            _head = _last = null;
+            _count--;
+            return true;
         }
+
+        var nodeBefore = GetNode(index - 1);
+        var nodeToRemove = nodeBefore.Next;
         
+        if (nodeToRemove.IsLast)
+            _last = nodeBefore;
+        
+        nodeBefore.Link(nodeToRemove.Next);
+        _count--;
+        return true;
+    }
+
+        private LnkNode<T>? GetNode(int index)
+    {
         var currentIndex = 0;
         var currentNode = _head;
-        
         while (currentNode != null)
         {
-            if (currentIndex == index - 1)
-            {
-                currentNode.Next = currentNode.Next!.Next;
-                return;
-            }
+            if (currentIndex == index)
+                return currentNode;
             
             currentIndex++;
             currentNode = currentNode.Next;
         }
+
+        return null;
     }
 
     // O(1)
