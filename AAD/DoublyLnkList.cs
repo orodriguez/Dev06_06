@@ -58,7 +58,43 @@ public class DoublyLnkList<T> where T : notnull
 
     public void Insert(int index, T value)
     {
-        throw new NotImplementedException();
+        LnkNode<T> newNode = new LnkNode<T>(value);
+        LnkNode<T> temp_Node = this._head;
+        if (this._count == 0) 
+        {
+            return;
+        }
+
+        if (index == 0) 
+        {
+            newNode.Next = this._head;
+            //this._head.Previous = newNode;
+            this._head = newNode;
+            this._count++;
+            return;
+        }
+
+        int counter = 0;
+        int n = this._count;
+
+            
+
+        for (int i = 0; i < n; i++)
+        {
+            if (counter == index) 
+            {
+                LnkNode<T> previous = temp_Node.Previous;
+                previous.Next = newNode;
+                newNode.Previous = previous;
+                newNode.Next = temp_Node;
+                this._count++;
+                return;
+            }
+
+            temp_Node = temp_Node.Next;
+            counter++;
+        
+        }
     }
 
     public bool Remove(T value)
@@ -73,7 +109,7 @@ public class DoublyLnkList<T> where T : notnull
 
     public T Last()
     {
-        throw new NotImplementedException();
+        return this._last.Value;
     }
 
     public T[] ToArray()
