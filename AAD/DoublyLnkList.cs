@@ -134,7 +134,7 @@ public class DoublyLnkList<T> where T : notnull
         LnkNode<T> currentNode = this._head;
         if (this._count == 0)
         {
-            return;
+            throw new IndexOutOfRangeException("Out of Rnage");
         }
 
         if (index >= this._count || index < 0)
