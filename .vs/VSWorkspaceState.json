@@ -4,10 +4,6 @@
     "\\AAD",
     "\\AAD.Tests"
   ],
-<<<<<<< HEAD
-  "SelectedNode": "\\AAD\\LnkNode.cs",
-=======
-  "SelectedNode": "\\AAD\\LnkList.cs",
->>>>>>> Testing-Assignment-2
+  "SelectedNode": "\\AAD\\DoublyLnkList.cs",
   "PreviewInSolutionExplorer": false
 }

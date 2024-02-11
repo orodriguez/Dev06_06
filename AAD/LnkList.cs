@@ -61,9 +61,13 @@ public class LnkList<T> where T : notnull
     // O(1)
     public void Prepend(T value)
     {
+        LnkNode<T> newNode = new LnkNode<T>(value);
         if (this._head == null)
         {
-            _head = new LnkNode<T>(value);
+            this._head = newNode;
+            this._last = newNode;
+            this._head.Next = this._last;
+           
             this._count++;
             return;
         }
@@ -235,12 +239,19 @@ public class LnkList<T> where T : notnull
         LnkNode<T> temp_node = this._head;
         int array_Counter = 0;
 
-        while (temp_node != null) 
+        /*while (temp_node != null) 
         {
             temp_Array[array_Counter] = temp_node.Value;
             temp_node = temp_node.Next;
             array_Counter++;
+        }*/
+
+        for (int i = 0; i <= this._count - 1; i++)
+        {
+            temp_Array[i] = temp_node.Value;
+            temp_node = temp_node.Next;
         }
+
         return temp_Array;
     }
 
