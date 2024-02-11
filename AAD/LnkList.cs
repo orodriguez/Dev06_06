@@ -184,8 +184,25 @@ public class LnkList<T> where T : notnull
         if (index == 0)
         {
             _head = _head.Next;
+            this._count--;
             return;
         }
+
+        if (index == this._count - 1) 
+        {
+            LnkNode<T> temp = this._head;
+            while (temp!=this._last) 
+            {
+                if (temp.Next == this._last) 
+                {
+                    this._last = temp;
+                    this._count--;
+                    return;
+                }
+                temp = temp.Next;
+            }
+        }
+
         
         var currentIndex = 0;
         var currentNode = _head;
@@ -195,6 +212,7 @@ public class LnkList<T> where T : notnull
             if (currentIndex == index - 1)
             {
                 currentNode.Next = currentNode.Next!.Next;
+                this._count--;
                 return;
             }
             
