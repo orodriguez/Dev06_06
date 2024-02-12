@@ -47,20 +47,26 @@ public class ValidParenthesisTests
         };
         
         var expectedStack = new Stack<char>();
+        
+        // M=O(1) P=O(n)
         foreach (var chr in input)
         {
+            // O(1)
             if (pairs.Keys.Contains(chr))
             {
                 expectedStack.Push(pairs[chr]);
                 continue;
             }
-
+            
+            // O(1)
             if (pairs.Values.Contains(chr))
             {
+                // O(1)
                 if (expectedStack.Count == 0)
                     return false;
                 
                 var expectedCloser = expectedStack.Pop();
+                // O(1)
                 if (expectedCloser != chr)
                     return false;
             }
