@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\AAD",
-    "\\AAD.Tests"
+    "\\AAD.Tests",
+    "\\RandomStudent"
   ],
-  "SelectedNode": "\\AAD\\DoublyLnkList.cs",
+  "SelectedNode": "\\RandomStudent\\RandomStudent.csproj",
   "PreviewInSolutionExplorer": false
 }
