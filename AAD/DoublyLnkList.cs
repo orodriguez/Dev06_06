@@ -1,56 +1,189 @@
-namespace AAD;
+using System;
+using System.Collections.Generic;
 
-public class DoublyLnkList<T> where T : notnull
+namespace AAD
 {
-    public static DoublyLnkList<T> From(params T[] values)
+    public class DoublyLnkList<T> where T : notnull
     {
-        throw new NotImplementedException();
-    }
+        private class Node
+        {
+            public T Value { get; set; }
+            public Node? Next { get; set; }
+            public Node? Previous { get; set; }
 
-    public T this[int index] => throw new NotImplementedException();
+            public Node(T value)
+            {
+                Value = value;
+                Next = null;
+                Previous = null;
+            }
+        }
 
-    public void Prepend(T value)
-    {
-        throw new NotImplementedException();
-    }
+        private Node? _head;
+        private Node? _tail;
+        private int _count;
 
-    public int Count()
-    {
-        throw new NotImplementedException();
-    }
+        public static DoublyLnkList<T> From(params T[] values)
+        {
+            var ll = new DoublyLnkList<T>();
+            foreach (var value in values)
+                ll.Add(value);
+            return ll;
+        }
 
-    public void Add(T value)
-    {
-        throw new NotImplementedException();
-    }
+        public T this[int index]
+        {
+            get
+            {
+                if (_head == null || index < 0 || index >= _count)
+                    throw new IndexOutOfRangeException();
 
-    public void Insert(int index, T value)
-    {
-        throw new NotImplementedException();
-    }
+                var current = _head;
+                for (int i = 0; i < index; i++)
+                {
+                    current = current.Next;
+                }
+                return current.Value;
+            }
+        }
 
-    public bool Remove(T value)
-    {
-        throw new NotImplementedException();
-    }
+        public void Prepend(T value)
+        {
+            var newNode = new Node(value);
+            newNode.Next = _head;
+            if (_head != null)
+                _head.Previous = newNode;
+            _head = newNode;
+            if (_tail == null)
+                _tail = newNode;
+            _count++;
+        }
 
-    public void RemoveAt(int index)
-    {
-        throw new NotImplementedException();
-    }
+        public int Count() => _count;
 
-    public T Last()
-    {
-        throw new NotImplementedException();
-    }
+        public void Add(T value)
+        {
+            var newNode = new Node(value);
+            if (_head == null)
+                _head = newNode;
+            else
+            {
+                _tail!.Next = newNode;
+                newNode.Previous = _tail;
+            }
+            _tail = newNode;
+            _count++;
+        }
 
-    public T[] ToArray()
-    {
-        throw new NotImplementedException();
-    }
+        public void Insert(int index, T value)
+        {
+            if (index < 0 || index > _count)
+                throw new IndexOutOfRangeException();
 
-    public T[] ToReversedArray()
-    {
-        throw new NotImplementedException();
+            if (index == 0)
+            {
+                Prepend(value);
+                return;
+            }
+            else if (index == _count)
+            {
+                Add(value);
+                return;
+            }
+
+            var newNode = new Node(value);
+            var current = _head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                current = current!.Next;
+            }
+
+            newNode.Next = current!.Next;
+            current.Next!.Previous = newNode;
+            current.Next = newNode;
+            newNode.Previous = current;
+            _count++;
+        }
+
+        public bool Remove(T value)
+        {
+            var current = _head;
+            while (current != null)
+            {
+                if (EqualityComparer<T>.Default.Equals(current.Value, value))
+                {
+                    if (current.Previous != null)
+                        current.Previous.Next = current.Next;
+                    else
+                        _head = current.Next;
+
+                    if (current.Next != null)
+                        current.Next.Previous = current.Previous;
+                    else
+                        _tail = current.Previous;
+
+                    _count--;
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= _count)
+                throw new IndexOutOfRangeException();
+
+            var current = _head;
+            for (int i = 0; i < index; i++)
+            {
+                current = current!.Next;
+            }
+
+            if (current!.Previous != null)
+                current.Previous.Next = current.Next;
+            else
+                _head = current.Next;
+
+            if (current.Next != null)
+                current.Next.Previous = current.Previous;
+            else
+                _tail = current.Previous;
+
+            _count--;
+        }
+
+        public T Last()
+        {
+            if (_tail == null)
+                throw new InvalidOperationException("The list is empty");
+
+            return _tail.Value;
+        }
+
+        public T[] ToArray()
+        {
+            var result = new T[_count];
+            var current = _head;
+            for (int i = 0; i < _count; i++)
+            {
+                result[i] = current!.Value;
+                current = current.Next;
+            }
+            return result;
+        }
+
+        public T[] ToReversedArray()
+        {
+            var result = new T[_count];
+            var current = _tail;
+            for (int i = 0; i < _count; i++)
+            {
+                result[i] = current!.Value;
+                current = current.Previous;
+            }
+            return result;
+        }
     }
 }
