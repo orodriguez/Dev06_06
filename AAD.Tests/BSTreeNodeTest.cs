@@ -118,4 +118,74 @@ public class BSTreeNodeTest
 
         Assert.False(n.Contains(20));
     }
+    
+    [Fact]
+    public void TraverseInOrder_OneNode()
+    {
+        var root = BSTreeNode
+            .From(new[] { 15 });
+
+        var result = new List<int>();
+        root.TraverseInOrder(node => result.Add(node.Value));
+        
+        Assert.Equal(
+            new[] { 15 },
+            result.ToArray());
+    }
+    
+    [Fact]
+    public void TraverseInOrder_OneNodeInLeft()
+    {
+        var root = BSTreeNode
+            .From(new[] { 15, 12 });
+
+        var result = new List<int>();
+        root.TraverseInOrder(node => result.Add(node.Value));
+        
+        Assert.Equal(
+            new[] { 12, 15 },
+            result.ToArray());
+    }
+    
+    [Fact]
+    public void TraverseInOrder_Many()
+    {
+        var root = BSTreeNode
+            .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
+
+        var result = new List<int>();
+        root.TraverseInOrder(node => result.Add(node.Value));
+        
+        Assert.Equal(
+            new[] { 7, 12, 14, 15, 20, 23, 27, 88 },
+            result.ToArray());
+    }
+    
+    [Fact]
+    public void TraversePreOrder_Many()
+    {
+        var root = BSTreeNode
+            .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
+
+        var result = new List<int>();
+        root.TraversePreOrder(node => result.Add(node.Value));
+        
+        Assert.Equal(
+            new[] { 15, 12, 7, 14, 27, 20, 23, 88 },
+            result.ToArray());
+    }
+    
+    [Fact]
+    public void TraversePostOrder_Many()
+    {
+        var root = BSTreeNode
+            .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
+
+        var result = new List<int>();
+        root.TraversePostOrder(node => result.Add(node.Value));
+        
+        Assert.Equal(
+            new[] { 7, 14, 12, 23, 20, 88, 27, 15 },
+            result.ToArray());
+    }
 }

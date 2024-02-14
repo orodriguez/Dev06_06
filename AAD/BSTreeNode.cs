@@ -65,4 +65,26 @@ public class BSTreeNode
 
         return Right != null && Right.Contains(searchedValue);
     }
+
+    // O(n)
+    public void TraverseInOrder(Action<BSTreeNode> action)
+    {
+        Left?.TraverseInOrder(action);
+        action(this);
+        Right?.TraverseInOrder(action);
+    }
+
+    public void TraversePreOrder(Action<BSTreeNode> action)
+    {
+        action(this);
+        Left?.TraversePreOrder(action);
+        Right?.TraversePreOrder(action);
+    }
+
+    public void TraversePostOrder(Action<BSTreeNode> action)
+    {
+        Left?.TraversePostOrder(action);
+        Right?.TraversePostOrder(action);
+        action(this);
+    }
 }
