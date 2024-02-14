@@ -82,28 +82,19 @@ public class TreeNode<T>
     public T Value { get; }
     public TreeNode<T>? Parent { get; private set; }
     public List<TreeNode<T>> Children { get; }
+    private int SelfLevel;
 
     public TreeNode(T value, TreeNode<T>? parent = null)
     {
         Value = value;
         Parent = parent;
         Children = new List<TreeNode<T>>();
+        SelfLevel = parent != null? parent.SelfLevel + 1 : 0;
     }
 
     public bool IsRoot => Parent == null;
 
-    public int Level()
-    {
-        var level = 0;
-        var current = this;
-        while (current.Parent != null)
-        {
-            level++;
-            current = current.Parent;
-        }
-
-        return level;
-    }
+    public int Level() => SelfLevel;
 
     public TreeNode<T> Add(T childValue) =>
         Add(new TreeNode<T>(childValue, parent: this));
