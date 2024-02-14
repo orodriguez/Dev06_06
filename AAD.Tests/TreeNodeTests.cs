@@ -164,6 +164,47 @@ public class TreeNodeTests
         
         Assert.Equal(expected, result.ToArray());
     }
+    
+    [Fact]
+    public void Print_OneNode()
+    {
+        var a = new TreeNode<string>("A");
+
+        Assert.Equal("A", a.Print());
+    }
+
+    [Fact]
+    public void Print_NodeWithChildren()
+    {
+        var sm = new TreeNode<string>("Super Market");
+
+        var v = sm.Add("Vegetables");
+        var pc = sm.Add("Personal Care");
+
+        var expected = string.Join('\n',
+            "Super Market",
+            "|_Vegetables",
+            "|_Personal Care");
+
+        Assert.Equal(expected, sm.Print());
+    }
+
+    [Fact]
+    public void Print_Level2Tree()
+    {
+        var sm = BuildSuperMarketNode();
+
+        var expected = string.Join('\n',
+            "Super Market",
+            "|_Vegetables",
+            "|__Tomato",
+            "|__Lettuce",
+            "|_Personal Care",
+            "|__Shampoo",
+            "|__Tooth Paste");
+
+        Assert.Equal(expected, sm.Print());
+    }
 
     private static TreeNode<string> BuildSuperMarketNode()
     {
