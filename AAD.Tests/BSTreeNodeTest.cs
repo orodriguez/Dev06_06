@@ -73,4 +73,49 @@ public class BSTreeNodeTest
         Assert.NotNull(right);
         Assert.Equal(20, right.RightValue);
     }
+    
+    [Fact]
+    public void Contains_OneNode()
+    {
+        var n = BSTreeNode
+            .From(new[] { 15 });
+
+        Assert.True(n.Contains(15));
+    }
+    
+    [Fact]
+    public void Contains_InLeft()
+    {
+        var n = BSTreeNode
+            .From(new[] { 15, 5 });
+
+        Assert.True(n.Contains(5));
+    }
+    
+    [Fact]
+    public void Contains_InRight()
+    {
+        var n = BSTreeNode
+            .From(new[] { 15, 20 });
+
+        Assert.True(n.Contains(20));
+    }
+    
+    [Fact]
+    public void Contains_DotNotExistInLeft()
+    {
+        var n = BSTreeNode
+            .From(new[] { 15 });
+
+        Assert.False(n.Contains(5));
+    }
+    
+    [Fact]
+    public void Contains_DotNotExistInRight()
+    {
+        var n = BSTreeNode
+            .From(new[] { 15 });
+
+        Assert.False(n.Contains(20));
+    }
 }

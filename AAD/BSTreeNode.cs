@@ -40,4 +40,29 @@ public class BSTreeNode
 
         Right = new BSTreeNode(newValue);
     }
+
+    public static BSTreeNode From(int[] values)
+    {
+        var root = new BSTreeNode(values.First());
+
+        foreach (var value in values.Skip(1))
+            root.Add(value);
+
+        return root;
+    }
+
+    // O(log n)
+    public bool Contains(int searchedValue)
+    {
+        if (Value == searchedValue)
+            return true;
+
+        if (Value > searchedValue && Left == null)
+            return false;
+
+        if (Value > searchedValue && Left != null)
+            return Left.Contains(searchedValue);
+
+        return Right != null && Right.Contains(searchedValue);
+    }
 }
