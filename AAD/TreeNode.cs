@@ -32,4 +32,14 @@ public class TreeNode<T>
         Children
             .Select(child => child.Count())
             .Sum();
+
+    public int Height()
+    {
+        if (IsLeaf)
+            return Level + 1;
+        
+        return Children.Max(node => node.Height());
+    }
+
+    public bool IsLeaf => Children.Count == 0;
 }

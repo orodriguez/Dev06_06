@@ -75,4 +75,24 @@ public class TreeNodeTests
 
         Assert.Equal(2, leaf.Level);
     }
+    
+    [Fact]
+    public void Height_OneNode()
+    {
+        var t = new TreeNode<string>("A");
+        
+        Assert.Equal(1, t.Height());
+    }
+    
+    [Fact]
+    public void Height_TreeNodes()
+    {
+        var t = new TreeNode<string>("A");
+        t.Add("X");
+        
+        var b = t.Add("B");
+        b.Add("C");
+        
+        Assert.Equal(3, t.Height());
+    }
 }
