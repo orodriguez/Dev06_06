@@ -42,4 +42,40 @@ public class TreeNode<T>
     }
 
     public bool IsLeaf => Children.Count == 0;
+
+    // O(n)
+    public void TraversePreOrder(Action<TreeNode<T>> action)
+    {
+        action(this);
+
+        foreach (var child in Children) 
+            child.TraversePreOrder(action);
+    }
+    
+    // O(n)
+    public void TraversePostOrder(Action<TreeNode<T>> action)
+    {
+        foreach (var child in Children) 
+            child.TraversePostOrder(action);
+        
+        action(this);
+    }
+    
+    // O(n)
+    public void TraverseLevelOrder(Action<TreeNode<T>> action)
+    {
+        var levels = new Dictionary<int, List<TreeNode<T>>>();
+        
+        TraversePreOrder(node =>
+        {
+            if (!levels.ContainsKey(node.Level))
+                levels[node.Level] = new List<TreeNode<T>>();
+            
+            levels[node.Level].Add(node);
+        });
+
+        foreach (var level in levels.Keys)
+        foreach (var node in levels[level])
+            action(node);
+    }
 }

@@ -95,4 +95,87 @@ public class TreeNodeTests
         
         Assert.Equal(3, t.Height());
     }
+
+    [Fact]
+    public void TraversePreOrder()
+    {
+        var sm = BuildSuperMarketNode();
+
+        var result = new List<string>();
+
+        sm.TraversePreOrder(node => result.Add(node.Value));
+
+        var expected = new[]
+        {
+            "Super Market",
+            "Vegetables",
+            "Tomato",
+            "Lettuce",
+            "Personal Care",
+            "Shampoo",
+            "Tooth Paste"
+        };
+        
+        Assert.Equal(expected, result.ToArray());
+    }
+    
+    [Fact]
+    public void TraversePostOrder()
+    {
+        var sm = BuildSuperMarketNode();
+
+        var result = new List<string>();
+
+        sm.TraversePostOrder(node => result.Add(node.Value));
+
+        var expected = new[]
+        {
+            "Tomato",
+            "Lettuce",
+            "Vegetables",
+            "Shampoo",
+            "Tooth Paste",
+            "Personal Care",
+            "Super Market",
+        };
+        
+        Assert.Equal(expected, result.ToArray());
+    }
+    
+    [Fact]
+    public void TraverseLevelOrder()
+    {
+        var sm = BuildSuperMarketNode();
+
+        var result = new List<string>();
+
+        sm.TraverseLevelOrder(node => result.Add(node.Value));
+
+        var expected = new[]
+        {
+            "Super Market",
+            "Vegetables",
+            "Personal Care",
+            "Tomato",
+            "Lettuce",
+            "Shampoo",
+            "Tooth Paste",
+        };
+        
+        Assert.Equal(expected, result.ToArray());
+    }
+
+    private static TreeNode<string> BuildSuperMarketNode()
+    {
+        var sm = new TreeNode<string>("Super Market");
+
+        var v = sm.Add("Vegetables");
+        v.Add("Tomato");
+        v.Add("Lettuce");
+
+        var pc = sm.Add("Personal Care");
+        pc.Add("Shampoo");
+        pc.Add("Tooth Paste");
+        return sm;
+    }
 }
