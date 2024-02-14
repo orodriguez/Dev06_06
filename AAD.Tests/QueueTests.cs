@@ -13,6 +13,6 @@ public class QueueTests
         
         Assert.Equal("A", q.Dequeue());
         
-        Assert.Equal(0, q.Count);
+        Assert.Empty(q);
     }
 }

@@ -55,7 +55,7 @@ public class TreeNodeTests
     {
         var superMarket = new TreeNode<string>("Super Market");
 
-        Assert.Equal(0, superMarket.Level());
+        Assert.Equal(0, superMarket.Level);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class TreeNodeTests
     {
         var child = new TreeNode<string>("A").Add("B");
 
-        Assert.Equal(1, child.Level());
+        Assert.Equal(1, child.Level);
     }
     
     [Fact]
@@ -73,51 +73,6 @@ public class TreeNodeTests
             .Add("B")
             .Add("C");
 
-        Assert.Equal(2, leaf.Level());
+        Assert.Equal(2, leaf.Level);
     }
-}
-
-public class TreeNode<T>
-{
-    public T Value { get; }
-    public TreeNode<T>? Parent { get; private set; }
-    public List<TreeNode<T>> Children { get; }
-
-    public TreeNode(T value, TreeNode<T>? parent = null)
-    {
-        Value = value;
-        Parent = parent;
-        Children = new List<TreeNode<T>>();
-    }
-
-    public bool IsRoot => Parent == null;
-
-    public int Level()
-    {
-        var level = 0;
-        var current = this;
-        while (current.Parent != null)
-        {
-            level++;
-            current = current.Parent;
-        }
-
-        return level;
-    }
-
-    public TreeNode<T> Add(T childValue) =>
-        Add(new TreeNode<T>(childValue, parent: this));
-
-    private TreeNode<T> Add(TreeNode<T> node)
-    {
-        Children.Add(node);
-        return node;
-    }
-
-    public int Count() => ChildrenCount() + 1;
-
-    private int ChildrenCount() =>
-        Children
-            .Select(child => child.Count())
-            .Sum();
 }
