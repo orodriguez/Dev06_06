@@ -2,20 +2,26 @@ namespace AAD;
 
 public class BSTree : IBSTree
 {
-    private readonly BSTreeNode? _root;
+    private BSTreeNode? _root;
     public BSTree() => _root = null;
 
-    public BSTree(int value) => 
+    public BSTree(int value) =>
         _root = new BSTreeNode(value);
 
     public void Add(int newValue)
     {
-        throw new NotImplementedException();
+        if (_root == null)
+        {
+            _root = new BSTreeNode(newValue);
+            return;
+        }
+
+        _root.Add(newValue);
     }
 
-    public int Count() => 
+    public int Count() =>
         _root?.Count() ?? 0;
 
-    public bool Contains(int searchedValue) => 
+    public bool Contains(int searchedValue) =>
         _root != null && _root.Contains(searchedValue);
 }
