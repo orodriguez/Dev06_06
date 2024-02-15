@@ -1,14 +1,14 @@
 namespace AAD;
 
-public class IbsTree : IBSTree
+public class BSTreeNode : IBSTree
 {
     public int Value { get; set; }
-    public IbsTree? Left { get; set; }
-    public IbsTree? Right { get; set; }
+    public BSTreeNode? Left { get; set; }
+    public BSTreeNode? Right { get; set; }
     public int? LeftValue => Left?.Value;
     public int? RightValue => Right?.Value;
 
-    public IbsTree(int value)
+    public BSTreeNode(int value)
     {
         Value = value;
         Left = null;
@@ -28,7 +28,7 @@ public class IbsTree : IBSTree
 
         if (Value > newValue)
         {
-            Left = new IbsTree(newValue);
+            Left = new BSTreeNode(newValue);
             return;
         }
 
@@ -38,12 +38,12 @@ public class IbsTree : IBSTree
             return;
         }
 
-        Right = new IbsTree(newValue);
+        Right = new BSTreeNode(newValue);
     }
 
-    public static IbsTree From(int[] values)
+    public static BSTreeNode From(int[] values)
     {
-        var root = new IbsTree(values.First());
+        var root = new BSTreeNode(values.First());
 
         foreach (var value in values.Skip(1))
             root.Add(value);
@@ -75,21 +75,21 @@ public class IbsTree : IBSTree
 
     // O(n)
 
-    public void TraverseInOrder(Action<IbsTree> action)
+    public void TraverseInOrder(Action<BSTreeNode> action)
     {
         Left?.TraverseInOrder(action);
         action(this);
         Right?.TraverseInOrder(action);
     }
 
-    public void TraversePreOrder(Action<IbsTree> action)
+    public void TraversePreOrder(Action<BSTreeNode> action)
     {
         action(this);
         Left?.TraversePreOrder(action);
         Right?.TraversePreOrder(action);
     }
 
-    public void TraversePostOrder(Action<IbsTree> action)
+    public void TraversePostOrder(Action<BSTreeNode> action)
     {
         Left?.TraversePostOrder(action);
         Right?.TraversePostOrder(action);
