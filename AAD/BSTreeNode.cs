@@ -76,32 +76,24 @@ public class BSTreeNode
 
     public (bool deleted, BSTreeNode? newNode) Delete(int valueToDelete)
     {
-        if (Value > valueToDelete)
+        if (Value > valueToDelete && Left == null)
+            return (false, this);
+        
+        if (Value > valueToDelete && Left != null)
         {
-            if (Left == null)
-                return (false, this);
-
             var (deleted, newNode) = Left.Delete(valueToDelete);
-
-            if (!deleted)
-                return (false, this);
-            
             Left = newNode;
             return (deleted, this);
         }
-        
-        if (Value < valueToDelete)
-        {
-            if (Right == null)
-                return (false, this);
 
+        if (Value < valueToDelete && Right == null)
+            return (false, this);
+
+        if (Value < valueToDelete && Right != null)
+        {
             var (deleted, newNode) = Right.Delete(valueToDelete);
-            
-            if (!deleted)
-                return (false, this);
-            
             Right = newNode;
-            return (true, this);
+            return (deleted, this);
         }
 
         if (IsLeaf)
