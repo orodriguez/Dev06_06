@@ -8,7 +8,7 @@ public class BSTreeTests
         var tree = new BSTree();
         Assert.Equal(0, tree.Count());
     }
-    
+
     [Fact]
     public void ConstructorWithValue()
     {
@@ -16,14 +16,14 @@ public class BSTreeTests
         Assert.Equal(1, tree.Count());
         Assert.True(tree.Contains(10));
     }
-    
+
     [Fact]
     public void Contains_Empty()
     {
         var tree = new BSTree();
         Assert.False(tree.Contains(10));
     }
-    
+
     [Fact]
     public void Add_Empty()
     {
@@ -32,7 +32,7 @@ public class BSTreeTests
         Assert.Equal(1, tree.Count());
         Assert.True(tree.Contains(10));
     }
-    
+
     [Fact]
     public void Add_NotEmpty()
     {
@@ -43,7 +43,7 @@ public class BSTreeTests
         Assert.True(tree.Contains(10));
         Assert.True(tree.Contains(15));
     }
-    
+
     [Fact]
     public void Delete_Empty()
     {
@@ -58,47 +58,67 @@ public class BSTreeTests
         var tree = new BSTree(10);
 
         tree.Delete(10);
-        
+
         Assert.Equal(0, tree.Count());
     }
-    
+
     [Fact]
     public void Delete_LeftLeaf()
     {
         var tree = BSTree.From(new[] { 10, 5 });
-        
+
         tree.Delete(5);
-        
+
         Assert.Equal(new[] { 10 }, tree.ToArray());
     }
-    
+
     [Fact]
     public void Delete_LeftNotFound()
     {
         var tree = BSTree.From(new[] { 10 });
-        
+
         Assert.False(tree.Delete(5));
-        
+
         Assert.Equal(new[] { 10 }, tree.ToArray());
     }
-    
+
     [Fact]
     public void Delete_RightLeaf()
     {
         var tree = BSTree.From(new[] { 10, 15 });
 
         tree.Delete(15);
-        
+
         Assert.Equal(new[] { 10 }, tree.ToArray());
     }
-    
+
     [Fact]
     public void Delete_RightNotFound()
     {
         var tree = BSTree.From(new[] { 10 });
-        
+
         Assert.False(tree.Delete(15));
-        
+
         Assert.Equal(new[] { 10 }, tree.ToArray());
+    }
+
+    [Fact]
+    public void Delete_SubTreeWithLeft()
+    {
+        var tree = BSTree.From(new[] { 10, 5, 3 });
+
+        Assert.True(tree.Delete(5));
+
+        Assert.Equal(new[] { 3, 10 }, tree.ToArray());
+    }
+
+    [Fact]
+    public void Delete_SubTreeWithRight()
+    {
+        var tree = BSTree.From(new[] { 10, 15, 20 });
+
+        Assert.True(tree.Delete(15));
+
+        Assert.Equal(new[] { 10, 20 }, tree.ToArray());
     }
 }

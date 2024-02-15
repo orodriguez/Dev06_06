@@ -107,11 +107,16 @@ public class BSTreeNode
         if (IsLeaf)
             return (true, null);
 
+        if (Right == null)
+            return (true, Left);
+
+        if (Left == null)
+            return (true, Right);
+
         throw new NotImplementedException();
     }
 
     // O(n)
-
     public void TraverseInOrder(Action<BSTreeNode> action)
     {
         Left?.TraverseInOrder(action);
