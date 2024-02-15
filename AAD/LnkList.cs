@@ -76,7 +76,7 @@ public class LnkList<T> where T : notnull
             _head = _last = newNode;
         else // O(1)
         {
-            _last.Next = newNode;
+            _last!.Next = newNode;
             _last = newNode;
         }
 

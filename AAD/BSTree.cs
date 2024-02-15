@@ -27,13 +27,8 @@ public class BSTree
     public bool Contains(int searchedValue) =>
         _root != null && _root.Contains(searchedValue);
 
-    public void Delete(int valueToDelete)
-    {
-        if (_root == null)
-            return;
-
-        _root = _root.Delete(valueToDelete);
-    }
+    public void Delete(int valueToDelete) => 
+        _root = _root?.Delete(valueToDelete);
 
     public int[] ToArray()
     {
@@ -50,8 +45,7 @@ public class BSTree
     public static BSTree From(int[] values)
     {
         var root = BSTreeNode.From(values);
-        var tree = new BSTree(root);
-        return tree;
+        return new BSTree(root);
     }
 
     public int Min()

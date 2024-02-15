@@ -2,9 +2,9 @@ namespace AAD;
 
 public class BSTreeNode
 {
-    public int Value { get; set; }
-    public BSTreeNode? Left { get; set; }
-    public BSTreeNode? Right { get; set; }
+    public int Value { get; }
+    public BSTreeNode? Left { get; private set; }
+    public BSTreeNode? Right { get; private set; }
     public int? LeftValue => Left?.Value;
     public int? RightValue => Right?.Value;
     public bool IsLeaf => Left == null && Right == null;
@@ -104,9 +104,11 @@ public class BSTreeNode
             return Right;
 
         var minRight = Right.Min();
-        Value = minRight;
-        Right = Right.Delete(minRight);
-        return this;
+        return new BSTreeNode(minRight)
+        {
+            Left = Left,
+            Right = Right.Delete(minRight)
+        };
     }
 
     // O(n)
