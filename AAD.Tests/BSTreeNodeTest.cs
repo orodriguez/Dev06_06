@@ -118,7 +118,15 @@ public class BSTreeNodeTest
 
         Assert.False(n.Contains(20));
     }
-    
+
+    [Fact]
+    public void Count()
+    {
+        var n = new BSTreeNode(10);
+        
+        Assert.Equal(1, n.Count());
+    }
+
     [Fact]
     public void TraverseInOrder_OneNode()
     {

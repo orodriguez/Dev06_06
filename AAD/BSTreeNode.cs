@@ -51,6 +51,13 @@ public class BSTreeNode
         return root;
     }
 
+    public int Count()
+    {
+        var result = 0;
+        TraverseInOrder(_ => result++);
+        return result;
+    }
+
     // O(log n)
     public bool Contains(int searchedValue)
     {
@@ -67,6 +74,7 @@ public class BSTreeNode
     }
 
     // O(n)
+
     public void TraverseInOrder(Action<BSTreeNode> action)
     {
         Left?.TraverseInOrder(action);
