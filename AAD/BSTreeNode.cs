@@ -74,42 +74,39 @@ public class BSTreeNode
         return Right != null && Right.Contains(searchedValue);
     }
 
-    public (bool Deleted, BSTreeNode? NewNdoe) Delete(int valueToDelete)
+    public BSTreeNode? Delete(int valueToDelete)
     {
         if (Value > valueToDelete && Left == null)
-            return (false, this);
+            return this;
         
         if (Value > valueToDelete && Left != null)
         {
-            var result = Left.Delete(valueToDelete);
-            Left = result.NewNdoe;
-            return (result.Deleted, this);
+            Left = Left.Delete(valueToDelete);
+            return this;
         }
 
         if (Value < valueToDelete && Right == null)
-            return (false, this);
+            return this;
 
         if (Value < valueToDelete && Right != null)
         {
-            var result = Right.Delete(valueToDelete);
-            Right = result.NewNdoe;
-            return (result.Deleted, this);
+            Right = Right.Delete(valueToDelete);
+            return this;
         }
 
         if (Left == null && Right == null)
-            return (true, null);
+            return null;
 
         if (Right == null)
-            return (true, Left);
+            return Left;
 
         if (Left == null)
-            return (true, Right);
+            return Right;
 
         var minRight = Right.Min();
         Value = minRight;
-        var r = Right.Delete(minRight);
-        Right = r.NewNdoe;
-        return (true, this);
+        Right = Right.Delete(minRight);
+        return this;
     }
 
     // O(n)

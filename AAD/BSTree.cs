@@ -27,14 +27,12 @@ public class BSTree
     public bool Contains(int searchedValue) =>
         _root != null && _root.Contains(searchedValue);
 
-    public bool Delete(int valueToDelete)
+    public void Delete(int valueToDelete)
     {
         if (_root == null)
-            return false;
-        
-        var (deleted, root) = _root.Delete(valueToDelete);
-        _root = root;
-        return deleted;
+            return;
+
+        _root = _root.Delete(valueToDelete);
     }
 
     public int[] ToArray()

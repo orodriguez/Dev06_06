@@ -69,7 +69,7 @@ public class BSTreeTests
     {
         var tree = new BSTree();
 
-        Assert.False(tree.Delete(10));
+        tree.Delete(10);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class BSTreeTests
     {
         var tree = BSTree.From(new[] { 10 });
 
-        Assert.False(tree.Delete(5));
+        tree.Delete(5);
 
         Assert.Equal(new[] { 10 }, tree.ToArray());
     }
@@ -117,7 +117,7 @@ public class BSTreeTests
     {
         var tree = BSTree.From(new[] { 10 });
 
-        Assert.False(tree.Delete(15));
+        tree.Delete(15);
 
         Assert.Equal(new[] { 10 }, tree.ToArray());
     }
@@ -127,7 +127,7 @@ public class BSTreeTests
     {
         var tree = BSTree.From(new[] { 10, 5, 3 });
 
-        Assert.True(tree.Delete(5));
+        tree.Delete(5);
 
         Assert.Equal(new[] { 3, 10 }, tree.ToArray());
     }
@@ -137,7 +137,7 @@ public class BSTreeTests
     {
         var tree = BSTree.From(new[] { 10, 15, 20 });
 
-        Assert.True(tree.Delete(15));
+        tree.Delete(15);
 
         Assert.Equal(new[] { 10, 20 }, tree.ToArray());
     }
@@ -147,7 +147,7 @@ public class BSTreeTests
     {
         var tree = BSTree.From(new[] { 10, 15, 20, 11 });
 
-        Assert.True(tree.Delete(15));
+        tree.Delete(15);
 
         Assert.Equal(new[] { 10, 11, 20 }, tree.ToArray());
     }
