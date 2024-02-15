@@ -80,4 +80,65 @@ public class GraphTests
         
         Assert.Equal(expected, paths);
     }
+    
+    [Fact]
+    public void Paths_3StepsPath()
+    {
+        var g = new Graph<string>();
+        g.Add("A", "B");
+        g.Add("B", "C");
+        g.Add("C", "D");
+
+        var paths = g.Paths("A", "D");
+
+        var expected = new[]
+        {
+            new[] { "A", "B", "C", "D" }
+        };
+        
+        Assert.Equal(expected, paths);
+    }
+    
+    [Fact]
+    public void Paths_Circular()
+    {
+        var g = new Graph<string>();
+        g.Add("A", "B");
+        g.Add("B", "C");
+        g.Add("C", "A");
+        g.Add("C", "D");
+
+        var paths = g.Paths("A", "D");
+
+        var expected = new[]
+        {
+            new[] { "A", "B", "C", "D" }
+        };
+        
+        Assert.Equal(expected, paths);
+    }
+    
+    [Fact]
+    public void Paths_Complex()
+    {
+        var g = new Graph<string>();
+        g.Add("SD", "Villa Altagracia");
+        g.Add("Villa Altagracia", "Bonao");
+        g.Add("Bonao", "La Vega");
+        g.Add("SD", "Yamasa");
+        g.Add("Yamasa", "Bonao");
+        g.Add("Yamasa", "Cotui");
+        g.Add("Cotui", "La Vega");
+
+        var paths = g.Paths("SD", "La Vega");
+
+        var expected = new[]
+        {
+            new[] { "SD", "Villa Altagracia", "Bonao", "La Vega" },
+            new[] { "SD", "Yamasa", "Bonao", "La Vega" },
+            new[] { "SD", "Yamasa", "Cotui", "La Vega" },
+        };
+        
+        Assert.Equal(expected, paths);
+    }
 }
