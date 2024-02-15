@@ -5,7 +5,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Constructor()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         
         Assert.Equal(10, n.Value);
         Assert.Null(n.Left);
@@ -15,7 +15,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Add_RepeatedValue()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         n.Add(10);
         
         Assert.Null(n.Left);
@@ -25,7 +25,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Add_Left()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         n.Add(5);
         
         Assert.NotNull(n.Left);
@@ -37,7 +37,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Add_LeftIsNotNull()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         n.Add(5);
         n.Add(3);
 
@@ -51,7 +51,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Add_Right()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         n.Add(15);
         
         Assert.Null(n.Left);
@@ -63,7 +63,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Add_RightIsNotNull()
     {
-        var n = new BSTreeNode(value: 10);
+        var n = new IbsTree(value: 10);
         n.Add(15);
         n.Add(20);
 
@@ -77,7 +77,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Contains_OneNode()
     {
-        var n = BSTreeNode
+        var n = IbsTree
             .From(new[] { 15 });
 
         Assert.True(n.Contains(15));
@@ -86,7 +86,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Contains_InLeft()
     {
-        var n = BSTreeNode
+        var n = IbsTree
             .From(new[] { 15, 5 });
 
         Assert.True(n.Contains(5));
@@ -95,7 +95,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Contains_InRight()
     {
-        var n = BSTreeNode
+        var n = IbsTree
             .From(new[] { 15, 20 });
 
         Assert.True(n.Contains(20));
@@ -104,7 +104,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Contains_DotNotExistInLeft()
     {
-        var n = BSTreeNode
+        var n = IbsTree
             .From(new[] { 15 });
 
         Assert.False(n.Contains(5));
@@ -113,7 +113,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Contains_DotNotExistInRight()
     {
-        var n = BSTreeNode
+        var n = IbsTree
             .From(new[] { 15 });
 
         Assert.False(n.Contains(20));
@@ -122,7 +122,7 @@ public class BSTreeNodeTest
     [Fact]
     public void Count()
     {
-        var n = new BSTreeNode(10);
+        var n = new IbsTree(10);
         
         Assert.Equal(1, n.Count());
     }
@@ -130,7 +130,7 @@ public class BSTreeNodeTest
     [Fact]
     public void TraverseInOrder_OneNode()
     {
-        var root = BSTreeNode
+        var root = IbsTree
             .From(new[] { 15 });
 
         var result = new List<int>();
@@ -144,7 +144,7 @@ public class BSTreeNodeTest
     [Fact]
     public void TraverseInOrder_OneNodeInLeft()
     {
-        var root = BSTreeNode
+        var root = IbsTree
             .From(new[] { 15, 12 });
 
         var result = new List<int>();
@@ -158,7 +158,7 @@ public class BSTreeNodeTest
     [Fact]
     public void TraverseInOrder_Many()
     {
-        var root = BSTreeNode
+        var root = IbsTree
             .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
 
         var result = new List<int>();
@@ -172,7 +172,7 @@ public class BSTreeNodeTest
     [Fact]
     public void TraversePreOrder_Many()
     {
-        var root = BSTreeNode
+        var root = IbsTree
             .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
 
         var result = new List<int>();
@@ -186,7 +186,7 @@ public class BSTreeNodeTest
     [Fact]
     public void TraversePostOrder_Many()
     {
-        var root = BSTreeNode
+        var root = IbsTree
             .From(new[] { 15, 12, 27, 7, 14, 20, 88, 23 });
 
         var result = new List<int>();
