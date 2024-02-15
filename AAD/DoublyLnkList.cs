@@ -1,31 +1,21 @@
 namespace AAD;
 
-public class LnkList<T> where T : notnull
+public class DoublyLnkList<T> where T : notnull
 {
-    public static LnkList<T> From(params T[] values)
+    public static DoublyLnkList<T> From(params T[] values)
     {
-        var ll = new LnkList<T>();
+        var ll = new DoublyLnkList<T>();
         foreach (var value in values)
             ll.Add(value);
         return ll;
     }
 
-    private LnkNode<T>? _head;
+    private DoublyLnkNode<T>? _head;
 
-    private LnkNode<T>? _last;
+    private DoublyLnkNode<T>? _last;
 
-    private int _count;
+    private int _count = 0;
 
-    public LnkList() : this(head: null, last: null)
-    {
-    }
-
-    private LnkList(LnkNode<T>? head, LnkNode<T>? last)
-    {
-        _head = head;
-        _last = last;
-        _count = 0;
-    }
 
     public T this[int index] => Get(index);
 
@@ -52,69 +42,80 @@ public class LnkList<T> where T : notnull
         return currentNode.Value;
     }
 
-    // O(1)
+
+
+
     public void Prepend(T value)
     {
         if (_head == null)
-            _last = _head = new LnkNode<T>(value);
+            _last = _head = new DoublyLnkNode<T>(value);
         else
-            _head = new LnkNode<T>(value, next: _head);
+        {
+            var newNode = new DoublyLnkNode<T>(value);
+            newNode.Next = _head;
+            _head = newNode;
+        }
             
         _count++;
         return;
     }
 
+    public int Count() => _count;
 
-    // O(1)
-
-    public void Add(T element)
+    public void Add(T value)
     {
-        var newNode = new LnkNode<T>(element);
+        var newNode = new DoublyLnkNode<T>(value);
 
         // O(1)
         if (_head == null)
-            _head = _last = newNode;
+            _head =_last = newNode;
         else // O(1)
         {
             _last.Next = newNode;
+            newNode.Prev = _last;
             _last = newNode;
         }
 
         _count++;
+        return;
     }
-
-
-    // O(n)
 
     public void Insert(int index, T value)
     {
         // O(1)
-        if (_count == 0)
+        if (_count == 0 || index < 0 || index >= _count)
             return;
 
         // O(1)
         if (index == 0)
         {
-            var newNode = new LnkNode<T>(value, _head);
+            var newNode = new DoublyLnkNode<T>(value);
+            _head.Prev = newNode;
+            newNode.Next = _head;
             _head = newNode;
-            return;
         }
 
-        var currentIndex = 0;
-        var current = _head;
+        var currentIndex = 1;
+        var current = _head.Next;
         while (current != null)
         {
-            if (currentIndex == index - 1)
+            if (currentIndex == index)
             {
-                var newNode = new LnkNode<T>(value, current.Next);
-                newNode.Next = current.Next;
-                current.Next = newNode;
-                return;
+                var newNode = new DoublyLnkNode<T>(value);
+                var previousNode = current.Prev;
+                previousNode.Next = newNode;
+                newNode.Next = current;
+                current.Prev = newNode;
+                newNode.Prev = previousNode;
+                break;
             }
 
             current = current.Next;
             currentIndex++;
-        }
+        }    
+        
+        _count++;
+        return;
     }
 
     public bool Remove(T value)
@@ -144,6 +145,7 @@ public class LnkList<T> where T : notnull
         }
 
         return false;
+
     }
 
     public void RemoveAt(int index)
@@ -176,11 +178,14 @@ public class LnkList<T> where T : notnull
         }
     }
 
-    // O(1)
-    public int Count() =>
-        _count;
+    public T Last()
+    {
+        if(_last == null)
+            throw new InvalidOperationException();
 
-    // O(n)
+        return _last.Value;
+    }
+
     public T[] ToArray()
     {
         if (_head == null)
@@ -198,11 +203,20 @@ public class LnkList<T> where T : notnull
         return result.ToArray();
     }
 
-    public T Last()
+    public T[] ToReversedArray()
     {
         if (_last == null)
-            throw new InvalidOperationException();
-        
-        return _last.Value;
+            return Array.Empty<T>();
+
+        var result = new List<T>();
+
+        var current = _last;
+        while (current != null)
+        {
+            result.Add(current.Value);
+            current = current.Prev;
+        }
+
+        return result.ToArray();
     }
 }
