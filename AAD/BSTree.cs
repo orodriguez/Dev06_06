@@ -55,4 +55,12 @@ public class BSTree
         var tree = new BSTree(root);
         return tree;
     }
+
+    public int Min()
+    {
+        if (_root == null)
+            throw new InvalidOperationException();
+
+        return _root.Min();
+    }
 }

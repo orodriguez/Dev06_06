@@ -96,7 +96,7 @@ public class BSTreeNode
             return (deleted, this);
         }
 
-        if (IsLeaf)
+        if (Left == null && Right == null)
             return (true, null);
 
         if (Right == null)
@@ -129,4 +129,7 @@ public class BSTreeNode
         Right?.TraversePostOrder(action);
         action(this);
     }
+
+    public int Min() => 
+        Left == null ? Value : Math.Min(Value, Left.Min());
 }

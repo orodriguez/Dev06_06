@@ -45,6 +45,26 @@ public class BSTreeTests
     }
 
     [Fact]
+    public void Min_Empty()
+    {
+        var tree = new BSTree();
+
+        Assert.Throws<InvalidOperationException>(() => tree.Min());
+    }
+
+    [Theory]
+    [InlineData(new[] { 1 }, 1)]
+    [InlineData(new[] { 3, 2, 1 }, 1)]
+    [InlineData(new[] { 10, 15, 30 }, 10)]
+    [InlineData(new[] { 10, 5, 3 }, 3)]
+    public void Min(int[] values, int min)
+    {
+        var tree = BSTree.From(values);
+        
+        Assert.Equal(min, tree.Min());
+    }
+
+    [Fact]
     public void Delete_Empty()
     {
         var tree = new BSTree();
@@ -120,5 +140,15 @@ public class BSTreeTests
         Assert.True(tree.Delete(15));
 
         Assert.Equal(new[] { 10, 20 }, tree.ToArray());
+    }
+    
+    [Fact]
+    public void Delete_SubTreeWithLeftAndRight()
+    {
+        var tree = BSTree.From(new[] { 10, 15, 20, 11 });
+
+        Assert.True(tree.Delete(15));
+
+        Assert.Equal(new[] { 10, 11, 20 }, tree.ToArray());
     }
 }
