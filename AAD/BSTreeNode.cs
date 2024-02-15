@@ -1,12 +1,13 @@
 namespace AAD;
 
-public class BSTreeNode : IBSTree
+public class BSTreeNode
 {
     public int Value { get; set; }
     public BSTreeNode? Left { get; set; }
     public BSTreeNode? Right { get; set; }
     public int? LeftValue => Left?.Value;
     public int? RightValue => Right?.Value;
+    public bool IsLeaf => Left == null && Right == null;
 
     public BSTreeNode(int value)
     {
@@ -71,6 +72,42 @@ public class BSTreeNode : IBSTree
             return Left.Contains(searchedValue);
 
         return Right != null && Right.Contains(searchedValue);
+    }
+
+    public (bool deleted, BSTreeNode? newNode) Delete(int valueToDelete)
+    {
+        if (Value > valueToDelete)
+        {
+            if (Left == null)
+                return (false, this);
+
+            var (deleted, newNode) = Left.Delete(valueToDelete);
+
+            if (!deleted)
+                return (false, this);
+            
+            Left = newNode;
+            return (deleted, this);
+        }
+        
+        if (Value < valueToDelete)
+        {
+            if (Right == null)
+                return (false, this);
+
+            var (deleted, newNode) = Right.Delete(valueToDelete);
+            
+            if (!deleted)
+                return (false, this);
+            
+            Right = newNode;
+            return (true, this);
+        }
+
+        if (IsLeaf)
+            return (true, null);
+
+        throw new NotImplementedException();
     }
 
     // O(n)

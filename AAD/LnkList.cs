@@ -49,7 +49,7 @@ public class LnkList<T> where T : notnull
             currentNode = currentNode.Next;
         }
 
-        return currentNode.Value;
+        return currentNode!.Value;
     }
 
     // O(1)
