@@ -87,4 +87,10 @@ public class BSTreeNode
         Right?.TraversePostOrder(action);
         action(this);
     }
+
+    public int Min() => 
+        Left?.Min() ?? Value;
+
+    public int Max() => 
+        Right?.Max() ?? Value;
 }

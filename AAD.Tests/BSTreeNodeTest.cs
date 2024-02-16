@@ -118,7 +118,33 @@ public class BSTreeNodeTest
 
         Assert.False(n.Contains(20));
     }
+
+    [Fact]
+    public void Min_One()
+    {
+        var n = new BSTreeNode(10);
+
+        Assert.Equal(10, n.Min());
+    }
     
+    [Fact]
+    public void Min_Many()
+    {
+        var n = BSTreeNode
+            .From(new[] { 10, 5, 1, 3, 15, 8, 7 });;
+
+        Assert.Equal(1, n.Min());
+    }
+    
+    [Fact]
+    public void Max_Many()
+    {
+        var n = BSTreeNode
+            .From(new[] { 10, 5, 1, 3, 15, 8, 7 });;
+
+        Assert.Equal(15, n.Max());
+    }
+
     [Fact]
     public void TraverseInOrder_OneNode()
     {
