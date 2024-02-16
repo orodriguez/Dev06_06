@@ -236,6 +236,19 @@ public class BSTreeNodeTest
         Assert.Equal(new[] { 10 }, 
             t.ToArray());
     }
+    
+    [Fact]
+    public void Delete_SubTreeWithChildrenLeftAndRight()
+    {
+        var t = BSTreeNode
+            .From(new[] { 10, 5, 4, 8, 1, 7, 9 });
+
+        t.Delete(5);
+
+        Assert.Equal(
+            new[] { 1, 4, 7, 8, 9, 10 }, 
+            t.ToArray());
+    }
 
     [Fact]
     public void TraverseInOrder_OneNode()

@@ -112,17 +112,25 @@ public class BSTreeNode
 
         if (Value != valueToDelete)
             return this;
-
-        if (Value == valueToDelete && Left == null && Right == null)
+        
+        // Value == value cases
+        
+        if (Left == null && Right == null)
             return null;
         
-        if (Value == valueToDelete && Left == null)
+        if (Left == null)
             return Right;
         
-        if (Value == valueToDelete && Right == null)
+        if (Right == null)
             return Left;
 
-        throw new NotImplementedException();
+        var minRight = Right.Min();
+        var newNode = new BSTreeNode(minRight)
+        {
+            Left = Left,
+            Right = Right.Delete(minRight)
+        };
+        return newNode;
     }
 
     public int Count()
