@@ -98,16 +98,25 @@ public class BSTreeNode
 
     public BSTreeNode? Delete(int valueToDelete)
     {
-        if (Value > valueToDelete)
+        if (Value > valueToDelete && Left != null)
         {
             Left = Left.Delete(valueToDelete);
             return this;
         }
+
+        if (Value < valueToDelete && Right != null)
+        {
+            Right = Right.Delete(valueToDelete);
+            return this;
+        }
+
+        if (Value == valueToDelete && Left == null && Right == null)
+            return null;
         
         if (Value == valueToDelete && Left == null)
-            return null;
-
-        if (Value == valueToDelete && Left != null)
+            return Right;
+        
+        if (Value == valueToDelete && Right == null)
             return Left;
 
         throw new NotImplementedException();

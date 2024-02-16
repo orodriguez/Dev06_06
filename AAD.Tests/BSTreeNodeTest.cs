@@ -201,6 +201,18 @@ public class BSTreeNodeTest
         Assert.Equal(1, t.Count());
         Assert.False(t.Contains(15));
     }
+    
+    [Fact]
+    public void Delete_RightChildRightChild()
+    {
+        var t = BSTreeNode
+            .From(new[] { 10, 15, 20 });
+
+        t.Delete(15);
+
+        Assert.Equal(2, t.Count());
+        Assert.False(t.Contains(15));
+    }
 
     [Fact]
     public void TraverseInOrder_OneNode()
