@@ -110,6 +110,9 @@ public class BSTreeNode
             return this;
         }
 
+        if (Value != valueToDelete)
+            return this;
+
         if (Value == valueToDelete && Left == null && Right == null)
             return null;
         
@@ -127,5 +130,12 @@ public class BSTreeNode
         var count = 0;
         TraverseInOrder(_ => count++);
         return count;
+    }
+
+    public int[] ToArray()
+    {
+        var result = new List<int>();
+        TraverseInOrder(node => result.Add(node.Value));
+        return result.ToArray();
     }
 }

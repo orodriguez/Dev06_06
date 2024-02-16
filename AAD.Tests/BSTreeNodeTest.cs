@@ -213,6 +213,29 @@ public class BSTreeNodeTest
         Assert.Equal(2, t.Count());
         Assert.False(t.Contains(15));
     }
+    
+    [Fact]
+    public void Delete_NotFoundInLeft()
+    {
+        var t = BSTreeNode
+            .From(new[] { 10 });
+
+        t.Delete(3);
+
+        Assert.Equal(new[] { 10 }, t.ToArray());
+    }
+    
+    [Fact]
+    public void Delete_NotFoundInRight()
+    {
+        var t = BSTreeNode
+            .From(new[] { 10 });
+
+        t.Delete(15);
+
+        Assert.Equal(new[] { 10 }, 
+            t.ToArray());
+    }
 
     [Fact]
     public void TraverseInOrder_OneNode()
