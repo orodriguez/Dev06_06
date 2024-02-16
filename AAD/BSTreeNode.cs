@@ -88,9 +88,11 @@ public class BSTreeNode
         action(this);
     }
 
+    // Best: O(log n), Worst: O(n)
     public int Min() => 
         Left?.Min() ?? Value;
-
+    
+    // Best: O(log n), Worst: O(n)
     public int Max() => 
         Right?.Max() ?? Value;
 }
