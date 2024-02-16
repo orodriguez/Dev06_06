@@ -2,55 +2,37 @@ namespace AAD;
 
 public class Graph<T> where T : notnull
 {
-    private readonly Dictionary<T, List<Edge>> _edges;
+    private readonly Dictionary<T, List<T>> _edges;
 
-    public Graph() => 
-        _edges = new Dictionary<T, List<Edge>>();
+    public Graph() => _edges = new Dictionary<T, List<T>>();
 
-    public IEnumerable<Path> Paths(T start, T end)
+    public IEnumerable<IEnumerable<T>> Paths(T start, T end) => 
+        Paths(Array.Empty<T>(), start, end);
+
+    // O(e)
+    private IEnumerable<IEnumerable<T>> Paths(IEnumerable<T> prefix, T start, T end)
     {
         if (!_edges.ContainsKey(start))
-            return Array.Empty<Path>();
-        
+            return Array.Empty<T[]>();
+
         if (start.Equals(end))
-            return Array.Empty<Path>();
-
-        var edge = _edges[start]
-            .FirstOrDefault(edge => edge.To.Equals(end));
+            return new[] { prefix.Concat(new[] { start }) };
         
-        if (edge != null)
-            return new[] { new Path(edge) };
-
-        throw new NotImplementedException();
+        return _edges[start]
+            .Where(node => !node.Equals(start))
+            .Where(node => !prefix.Contains(node))
+            .Select(node => Paths(prefix.Concat(new[] { start }), node, end))
+            .SelectMany(paths => paths);
     }
 
     public void Add(T from, T to)
     {
-        var edge = new Edge(from, to);
-
         if (!_edges.ContainsKey(from))
-            _edges[from] = new List<Edge>();
+            _edges[from] = new List<T>();
+
+        if (!_edges.ContainsKey(to))
+            _edges[to] = new List<T>();
         
-        _edges[from].Add(edge);
-    }
-
-    public record Edge(T From, T To);
-
-    public record Path(Edge[] Edges)
-    {
-        public Path(Edge edge) : this(new[] { edge })
-        {
-        }
-
-        public T[] ToArray()
-        {
-            if (Edges.Length == 0)
-                return Array.Empty<T>();
-
-            return Edges
-                .Select(edge => edge.From)
-                .Concat(new[] { Edges.Last().To })
-                .ToArray();
-        }
+        _edges[from].Add(to);
     }
 }
