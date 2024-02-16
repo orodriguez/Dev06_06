@@ -145,6 +145,11 @@ public class BSTreeNodeTest
         Assert.Equal(15, n.Max());
     }
 
+    [Fact(Skip = "Implement BSTree first")]
+    public void Delete_EmptyTree()
+    {
+    }
+
     [Fact]
     public void TraverseInOrder_OneNode()
     {
