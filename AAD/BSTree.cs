@@ -26,10 +26,8 @@ public class BSTree
     {
         if (_root == null)
             return 0;
-        
-        var count = 0;
-        _root.TraverseInOrder(_ => count++);
-        return count;
+
+        return _root.Count();
     }
 
     public bool Contains(int value)
@@ -38,5 +36,13 @@ public class BSTree
             return false;
         
         return _root.Contains(value);
+    }
+
+    public void Delete(int valueToDelete)
+    {
+        if (_root == null)
+            return;
+
+        _root = _root.Delete(valueToDelete);
     }
 }

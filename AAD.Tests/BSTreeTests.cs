@@ -67,4 +67,24 @@ public class BSTreeTests
         
         Assert.True(t.Contains(10));
     }
+
+    [Fact]
+    public void Delete()
+    {
+        var t = new BSTree();
+
+        t.Delete(10);
+        
+        Assert.Equal(0, t.Count());
+    }
+    
+    [Fact]
+    public void Delete_OneNode()
+    {
+        var t = new BSTree();
+        t.Add(10);
+        t.Delete(10);
+        
+        Assert.Equal(0, t.Count());
+    }
 }

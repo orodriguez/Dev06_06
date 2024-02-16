@@ -95,4 +95,28 @@ public class BSTreeNode
     // Best: O(log n), Worst: O(n)
     public int Max() => 
         Right?.Max() ?? Value;
+
+    public BSTreeNode? Delete(int valueToDelete)
+    {
+        if (Value > valueToDelete)
+        {
+            Left = Left.Delete(valueToDelete);
+            return this;
+        }
+        
+        if (Value == valueToDelete && Left == null)
+            return null;
+
+        if (Value == valueToDelete && Left != null)
+            return Left;
+
+        throw new NotImplementedException();
+    }
+
+    public int Count()
+    {
+        var count = 0;
+        TraverseInOrder(_ => count++);
+        return count;
+    }
 }
