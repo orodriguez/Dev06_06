@@ -195,4 +195,12 @@ public class LnkList<T> where T : notnull
 
         return result.ToArray();
     }
+
+    public T Last()
+    {
+        if (_last == null)
+            throw new InvalidOperationException();
+        
+        return _last.Value;
+    }
 }
