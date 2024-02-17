@@ -3,26 +3,29 @@ using System.Collections.Generic;
 
 namespace AAD
 {
-    public class LnkList<T> where T : notnull
+    public class DoublyLnkList<T> where T : notnull
     {
         private class Node
         {
             public T Value { get; set; }
             public Node? Next { get; set; }
+            public Node? Previous { get; set; }
 
             public Node(T value)
             {
                 Value = value;
                 Next = null;
+                Previous = null;
             }
         }
 
         private Node? _head;
+        private Node? _tail;
         private int _count;
 
-        public static LnkList<T> From(params T[] values)
+        public static DoublyLnkList<T> From(params T[] values)
         {
-            var ll = new LnkList<T>();
+            var ll = new DoublyLnkList<T>();
             foreach (var value in values)
                 ll.Add(value);
             return ll;
@@ -48,7 +51,11 @@ namespace AAD
         {
             var newNode = new Node(value);
             newNode.Next = _head;
+            if (_head != null)
+                _head.Previous = newNode;
             _head = newNode;
+            if (_tail == null)
+                _tail = newNode;
             _count++;
         }
 
@@ -61,13 +68,10 @@ namespace AAD
                 _head = newNode;
             else
             {
-                var current = _head;
-                while (current!.Next != null)
-                {
-                    current = current.Next;
-                }
-                current.Next = newNode;
+                _tail!.Next = newNode;
+                newNode.Previous = _tail;
             }
+            _tail = newNode;
             _count++;
         }
 
@@ -81,6 +85,11 @@ namespace AAD
                 Prepend(value);
                 return;
             }
+            else if (index == _count)
+            {
+                Add(value);
+                return;
+            }
 
             var newNode = new Node(value);
             var current = _head;
@@ -90,28 +99,29 @@ namespace AAD
             }
 
             newNode.Next = current!.Next;
+            current.Next!.Previous = newNode;
             current.Next = newNode;
+            newNode.Previous = current;
             _count++;
         }
 
         public bool Remove(T value)
         {
-            if (_head == null)
-                return false;
-
-            if (EqualityComparer<T>.Default.Equals(_head.Value, value))
-            {
-                _head = _head.Next;
-                _count--;
-                return true;
-            }
-
             var current = _head;
-            while (current!.Next != null)
+            while (current != null)
             {
-                if (EqualityComparer<T>.Default.Equals(current.Next.Value, value))
+                if (EqualityComparer<T>.Default.Equals(current.Value, value))
                 {
-                    current.Next = current.Next.Next;
+                    if (current.Previous != null)
+                        current.Previous.Next = current.Next;
+                    else
+                        _head = current.Next;
+
+                    if (current.Next != null)
+                        current.Next.Previous = current.Previous;
+                    else
+                        _tail = current.Previous;
+
                     _count--;
                     return true;
                 }
@@ -125,33 +135,31 @@ namespace AAD
             if (index < 0 || index >= _count)
                 throw new IndexOutOfRangeException();
 
-            if (index == 0)
+            var current = _head;
+            for (int i = 0; i < index; i++)
             {
-                _head = _head!.Next;
+                current = current!.Next;
             }
+
+            if (current!.Previous != null)
+                current.Previous.Next = current.Next;
             else
-            {
-                var current = _head;
-                for (int i = 0; i < index - 1; i++)
-                {
-                    current = current!.Next;
-                }
-                current!.Next = current.Next!.Next;
-            }
+                _head = current.Next;
+
+            if (current.Next != null)
+                current.Next.Previous = current.Previous;
+            else
+                _tail = current.Previous;
+
             _count--;
         }
 
         public T Last()
         {
-            if (_head == null)
+            if (_tail == null)
                 throw new InvalidOperationException("The list is empty");
 
-            var current = _head;
-            while (current!.Next != null)
-            {
-                current = current.Next;
-            }
-            return current.Value;
+            return _tail.Value;
         }
 
         public T[] ToArray()
@@ -162,6 +170,18 @@ namespace AAD
             {
                 result[i] = current!.Value;
                 current = current.Next;
+            }
+            return result;
+        }
+
+        public T[] ToReversedArray()
+        {
+            var result = new T[_count];
+            var current = _tail;
+            for (int i = 0; i < _count; i++)
+            {
+                result[i] = current!.Value;
+                current = current.Previous;
             }
             return result;
         }
