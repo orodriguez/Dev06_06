@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace AAD;
 
 public class TreeNode<T>
@@ -75,12 +77,22 @@ public class TreeNode<T>
         });
 
         foreach (var level in levels.Keys)
-        foreach (var node in levels[level])
-            action(node);
+            foreach (var node in levels[level])
+                action(node);
     }
 
     public IEnumerable<char> Print()
     {
-        throw new NotImplementedException();
+         var result = new StringBuilder();
+
+        TraversePreOrder(node =>
+        {
+            if (node.Level > 0)
+                result.Append("\n|");
+                result.Append('_', node.Level);
+            result.Append(node.Value);
+        });
+
+        return result.ToString();
     }
 }
