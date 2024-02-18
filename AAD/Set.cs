@@ -1,19 +1,33 @@
-namespace AAD;
+using System;
+using System.Collections.Generic;
 
-public class Set
+namespace AAD
 {
-    public void Add(int value)
+    public class Set
     {
-        throw new NotImplementedException();
-    }
+        private readonly HashSet<int> items;
 
-    public int[] ToArray()
-    {
-        throw new NotImplementedException();
-    }
+        public Set()
+        {
+            items = new HashSet<int>();
+        }
 
-    public bool Contains(int value)
-    {
-        throw new NotImplementedException();
+        public void Add(int item)
+        {
+            items.Add(item);
+        }
+
+        public bool Contains(int item)
+        {
+            return items.Contains(item);
+        }
+
+        public int[] ToArray()
+        {
+            int[] array = new int[items.Count];
+            items.CopyTo(array);
+            Array.Sort(array);
+            return array;
+        }
     }
 }
