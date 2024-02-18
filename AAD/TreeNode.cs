@@ -1,22 +1,35 @@
-namespace AAD;
-
 public class TreeNode<T>
 {
     public T Value { get; }
     public TreeNode<T>? Parent { get; private set; }
     public List<TreeNode<T>> Children { get; }
-    public int Level { get; }
-    
+
     public TreeNode(T value, TreeNode<T>? parent = null)
     {
         Value = value;
         Parent = parent;
-        Level = Parent == null ? 0 : Parent.Level + 1;
         Children = new List<TreeNode<T>>();
     }
 
+    public int Level
+    {
+        get
+        {
+            int level = 0;
+            var current = this.Parent;
+
+            while (current != null)
+            {
+                level++;
+                current = current.Parent;
+            }
+
+            return level;
+        }
+    }
+
     public bool IsRoot => Parent == null;
-    
+
     public TreeNode<T> Add(T childValue) =>
         Add(new TreeNode<T>(childValue, parent: this));
 
@@ -37,7 +50,7 @@ public class TreeNode<T>
     {
         if (IsLeaf)
             return Level + 1;
-        
+
         return Children.Max(node => node.Height());
     }
 
@@ -48,34 +61,32 @@ public class TreeNode<T>
     {
         action(this);
 
-        foreach (var child in Children) 
+        foreach (var child in Children)
             child.TraversePreOrder(action);
     }
-    
+
     // O(n)
     public void TraversePostOrder(Action<TreeNode<T>> action)
     {
-        foreach (var child in Children) 
+        foreach (var child in Children)
             child.TraversePostOrder(action);
-        
+
         action(this);
     }
-    
+
     // O(n)
     public void TraverseLevelOrder(Action<TreeNode<T>> action)
     {
-        var levels = new Dictionary<int, List<TreeNode<T>>>();
-        
-        TraversePreOrder(node =>
-        {
-            if (!levels.ContainsKey(node.Level))
-                levels[node.Level] = new List<TreeNode<T>>();
-            
-            levels[node.Level].Add(node);
-        });
+        var queue = new Queue<TreeNode<T>>();
+        queue.Enqueue(this);
 
-        foreach (var level in levels.Keys)
-        foreach (var node in levels[level])
+        while (queue.Count > 0)
+        {
+            var node = queue.Dequeue();
             action(node);
+
+            foreach (var child in node.Children)
+                queue.Enqueue(child);
+        }
     }
 }
