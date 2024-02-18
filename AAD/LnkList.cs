@@ -15,6 +15,7 @@ public class LnkList<T> where T : notnull
     private LnkNode<T>? _last;
 
     private int _count;
+    private LnkNode<T>? node;
 
     public LnkList() : this(head: null, last: null)
     {
@@ -76,7 +77,7 @@ public class LnkList<T> where T : notnull
             _head = _last = newNode;
         else // O(1)
         {
-            _last.Next = newNode;
+            _last!.Next = newNode;
             _last = newNode;
         }
 
@@ -194,5 +195,22 @@ public class LnkList<T> where T : notnull
         }
 
         return result.ToArray();
+    }
+
+    // Método que devuelve el nivel del nodo en la lista
+    public int Level() {
+
+        int level = 0;
+    
+        LnkNode<T> current = _head!;
+
+        while (current != node) {
+        
+            level++;
+    
+            current = current.Next!;
+        }
+
+        return level;
     }
 }
