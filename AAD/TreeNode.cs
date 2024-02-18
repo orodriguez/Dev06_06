@@ -81,6 +81,18 @@ public class TreeNode<T>
 
     public IEnumerable<char> Print()
     {
-        throw new NotImplementedException();
+        var result = "";
+
+        TraversePreOrder(node =>{
+            if(node.Level > 0)
+                result += "\n|";
+
+            for(int i = node.Level; i > 0; i --)
+                result += "_";
+            
+            result += node.Value;
+        });
+        
+        return result;
     }
 }
