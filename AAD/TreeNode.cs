@@ -78,4 +78,21 @@ public class TreeNode<T>
         foreach (var node in levels[level])
             action(node);
     }
+
+    public IEnumerable<char> Print()
+    {
+        var result = "";
+
+        TraversePreOrder(node =>{
+            if(node.Level > 0)
+                result += "\n|";
+
+            for(int i = node.Level; i > 0; i --)
+                result += "_";
+            
+            result += node.Value;
+        });
+        
+        return result;
+    }
 }
