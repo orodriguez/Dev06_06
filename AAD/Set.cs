@@ -1,19 +1,27 @@
-namespace AAD;
-
 public class Set
 {
-    public void Add(int value)
+    private HashSet<int> elements;
+
+    public Set()
     {
-        throw new NotImplementedException();
+        elements = new HashSet<int>();
+    }
+
+    public void Add(int item)
+    {
+        elements.Add(item);
+    }
+
+    public bool Contains(int item)
+    {
+        return elements.Contains(item);
     }
 
     public int[] ToArray()
     {
-        throw new NotImplementedException();
-    }
-
-    public bool Contains(int value)
-    {
-        throw new NotImplementedException();
+        var array = new int[elements.Count];
+        elements.CopyTo(array);
+        Array.Sort(array); 
+        return array;
     }
 }
