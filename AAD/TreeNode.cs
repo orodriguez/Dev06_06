@@ -78,4 +78,9 @@ public class TreeNode<T>
         foreach (var node in levels[level])
             action(node);
     }
+
+    public IEnumerable<char> Print()
+    {
+        throw new NotImplementedException();
+    }
 }
