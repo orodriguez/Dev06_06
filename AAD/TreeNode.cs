@@ -81,6 +81,40 @@ public class TreeNode<T>
 
     public IEnumerable<char> Print()
     {
-        throw new NotImplementedException();
+          var output = new StringBuilder();
+    TraverseLevelOrder(node =>
+    {
+        for (int i = 0; i < node.Level; i++)
+        {
+            output.Append("|_");
+        }
+        if (node.Level > 0)
+        {
+            output.Append("_");
+        }
+        output.AppendLine(node.Value.ToString());
+    });
+    return output.ToString();
     }
+
+    public class Set<T>
+{
+    private HashSet<T> _items;
+
+    public Set()
+    {
+        _items = new HashSet<T>();
+    }
+
+    public void Add(T item)
+    {
+        _items.Add(item);
+    }
+
+    public bool Contains(T item)
+    {
+        return _items.Contains(item);
+    }
+}
+
 }
