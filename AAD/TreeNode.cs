@@ -79,8 +79,24 @@ public class TreeNode<T>
             action(node);
     }
 
+    //Esto es un enumerable tipo char
     public IEnumerable<char> Print()
     {
-        throw new NotImplementedException();
+        //imprimiendo cuando solo ahy 1 nodo, eso implica que root y isleaf, serian true, esto pasa, colo cuando el root
+        //y el leaf son el mismo. Cuando no hay padre y Childre.Count es 0.
+        if (IsRoot && IsLeaf)
+        {
+            foreach (char c in Value.ToString()) 
+            {
+                yield return c;
+            }
+        }
+        else 
+        {
+            throw new InvalidOperationException("Print() method can only be called when there is only one node in the tree.");
+
+        }
+
+        
     }
 }
