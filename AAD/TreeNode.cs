@@ -82,46 +82,21 @@ public class TreeNode<T>
     //Esto es un enumerable tipo char
     public IEnumerable<char> Print()
     {
-        //imprimiendo cuando solo ahy 1 nodo, eso implica que root y isleaf, serian true, esto pasa, colo cuando el root
-        //y el leaf son el mismo. Cuando no hay padre y Childre.Count es 0.
-        if (IsRoot && IsLeaf)
+        var final = ""; // we will be adding the value per node here, following the instruction for print it
+        TraversePreOrder(CurrentNode =>
         {
-            foreach (char c in Value.ToString()) 
+            int depth = CurrentNode.Level; // obtain depth from current level
+            if (depth > 0) // if this is not the last level!
             {
-                yield return c;
-            }
-        }
-        else 
-        {
-            List<string> result = new List<string>();
-            //Recorrer cada hijo del nodo:
-            foreach (var child in this.Children)
-            {
-                if (child.Children.Any())
+                final += "\n|"; // this is part of the format that is expected
+                for (int i = depth; i > 0; i--) // depending on the level of depth that we are, we will add a underscore per depth
                 {
-                    throw new InvalidOperationException("Print() method can only be called when there is only one node in the tree.");
-
+                    final += "_";
                 }
-                else 
-                {
-                    string modification = "|_" + child.Value;
-                    result.Add(modification);
-                
-                }
+            };
+            final += CurrentNode.Value; // finally after we have the pre-characters we add the value on the current node.! 
+        });
 
-
-            }
-            string completed = string.Join('\n', result);
-
-            foreach (char c in completed)
-            {
-                yield return c;
-            }
-            //yield return completed;
-            //yield return string.Join('\n', result);
-
-        }
-
-        
+        return final;
     }
 }
