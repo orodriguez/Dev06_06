@@ -93,7 +93,32 @@ public class TreeNode<T>
         }
         else 
         {
-            throw new InvalidOperationException("Print() method can only be called when there is only one node in the tree.");
+            List<string> result = new List<string>();
+            //Recorrer cada hijo del nodo:
+            foreach (var child in this.Children)
+            {
+                if (child.Children.Any())
+                {
+                    throw new InvalidOperationException("Print() method can only be called when there is only one node in the tree.");
+
+                }
+                else 
+                {
+                    string modification = "|_" + child.Value;
+                    result.Add(modification);
+                
+                }
+
+
+            }
+            string completed = string.Join('\n', result);
+
+            foreach (char c in completed)
+            {
+                yield return c;
+            }
+            //yield return completed;
+            //yield return string.Join('\n', result);
 
         }
 
