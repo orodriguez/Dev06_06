@@ -49,7 +49,7 @@ public class LnkList<T> where T : notnull
             currentNode = currentNode.Next;
         }
 
-        return currentNode.Value;
+        return currentNode!.Value;
     }
 
     // O(1)
@@ -76,7 +76,7 @@ public class LnkList<T> where T : notnull
             _head = _last = newNode;
         else // O(1)
         {
-            _last.Next = newNode;
+            _last!.Next = newNode;
             _last = newNode;
         }
 
@@ -175,8 +175,7 @@ public class LnkList<T> where T : notnull
     }
 
     // O(1)
-    public int Count() =>
-        _count;
+    public int Count() => _count;
 
     // O(n)
     public T[] ToArray()
