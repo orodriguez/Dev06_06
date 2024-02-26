@@ -1,32 +1,91 @@
 namespace AAD;
 
+    public class DoublyLnkListNode<T>
+    {
+    public DoublyLnkListNode<T>? Next {get; set;}
+    public DoublyLnkListNode<T>? Prev{ get; set; }
+    public T? Dato{get; set;}
+
+        public DoublyLnkListNode(T dato, DoublyLnkListNode<T>? next = null){
+            Dato = dato;
+            Next = next;
+            Prev = null;
+        }
+    } 
 public class DoublyLnkList<T> where T : notnull
 {
+    private  DoublyLnkListNode<T>? _head;
+    private DoublyLnkListNode<T>? _last;
+    private int _count;
+
+    public DoublyLnkList(){
+        _head = null;
+        _last = null;
+        _count = 0;
+    }
     public static DoublyLnkList<T> From(params T[] values)
     {
-        throw new NotImplementedException();
+        var ll = new DoublyLnkList<T>();
+
+        foreach(var dato in values){
+            ll.Add(dato);
+        }
+        return  ll;
+    
     }
+
 
     public T this[int index] => throw new NotImplementedException();
 
     public void Prepend(T value)
     {
-        throw new NotImplementedException();
+          if (_head == null)
+        {
+            _head = new DoublyLnkListNode<T>(value);
+            _last = _head;
+        }else
+        {
+            var newNode = new DoublyLnkListNode<T>(value);
+            newNode.Next = _head;
+            _head.Prev = newNode;
+            _head = newNode;
+        }
+
+        
     }
 
-    public int Count()
-    {
-        throw new NotImplementedException();
-    }
+    public int Count() => _count;
 
     public void Add(T value)
     {
-        throw new NotImplementedException();
+            
+       var newNode = new DoublyLnkListNode<T>(value);
+
+       if(_head == null)
+       {
+            _head = newNode;
+            _last = newNode;
+
+       }else
+       {
+            _last.Next = newNode;
+            newNode.Prev = _last;
+            _last = newNode;
+            _count ++;
+       }
+
+       
+
     }
 
     public void Insert(int index, T value)
     {
-        throw new NotImplementedException();
+        if (index == 0) {
+            var newNode = new DoublyLnkListNode<T>(value, _head);
+            _head = newNode;
+            return;
+        }
+        
     }
 
     public bool Remove(T value)
@@ -54,3 +113,4 @@ public class DoublyLnkList<T> where T : notnull
         throw new NotImplementedException();
     }
 }
+
