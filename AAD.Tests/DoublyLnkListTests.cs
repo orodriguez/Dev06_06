@@ -74,7 +74,7 @@ public class DoublyDoublyLnkListTests
 
         ll.Insert(0, "Juan");
 
-        AssertElementsCountAndLast(Array.Empty<string>(), ll);
+        AssertElementsCountAndLast(new[] {"Juan"}, ll);
     }
 
     [Fact]
