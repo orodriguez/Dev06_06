@@ -1,11 +1,11 @@
 namespace AAD.Tests;
 
-public class LnkListTests
+public class DoublyDoublyLnkListTests
 {
     [Fact]
     public void Prepend_EmptyList()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         ll.Prepend("A");
 
@@ -15,7 +15,7 @@ public class LnkListTests
     [Fact]
     public void Prepend_Many()
     {
-        var ll = LnkList<int>.From(1, 2, 3);
+        var ll = DoublyLnkList<int>.From(1, 2, 3);
 
         ll.Prepend(4);
 
@@ -25,7 +25,7 @@ public class LnkListTests
     [Fact]
     public void Get_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         Assert.Throws<IndexOutOfRangeException>(() => ll[0]);
     }
@@ -33,7 +33,7 @@ public class LnkListTests
     [Fact]
     public void Get_Many()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         Assert.Equal("B", ll[1]);
     }
@@ -41,7 +41,7 @@ public class LnkListTests
     [Fact]
     public void Get_OutOfRange()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         Assert.Throws<IndexOutOfRangeException>(() => ll[10]);
         Assert.Throws<IndexOutOfRangeException>(() => ll[-2]);
@@ -50,7 +50,7 @@ public class LnkListTests
     [Fact]
     public void Add_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         ll.Add("One");
 
@@ -60,7 +60,7 @@ public class LnkListTests
     [Fact]
     public void Add_Many()
     {
-        var ll = LnkList<int>.From(1, 2, 3);
+        var ll = DoublyLnkList<int>.From(1, 2, 3);
 
         ll.Add(4);
 
@@ -70,7 +70,7 @@ public class LnkListTests
     [Fact]
     public void Insert_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         ll.Insert(0, "Juan");
 
@@ -80,7 +80,7 @@ public class LnkListTests
     [Fact]
     public void Insert_OneElement()
     {
-        var ll = LnkList<string>.From("Pablo");
+        var ll = DoublyLnkList<string>.From("Pablo");
 
         ll.Insert(0, "Juan");
 
@@ -90,7 +90,7 @@ public class LnkListTests
     [Fact]
     public void Insert_Many()
     {
-        var ll = LnkList<string>.From("Juan", "Duarte");
+        var ll = DoublyLnkList<string>.From("Juan", "Duarte");
 
         ll.Insert(1, "Pablo");
 
@@ -100,7 +100,7 @@ public class LnkListTests
     [Fact]
     public void Remove_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         var result = ll.Remove("Random");
 
@@ -110,7 +110,7 @@ public class LnkListTests
     [Fact]
     public void Remove_FirstOfMany()
     {
-        var ll = LnkList<string>.From("A", "B");
+        var ll = DoublyLnkList<string>.From("A", "B");
 
         Assert.True(ll.Remove("A"));
 
@@ -120,7 +120,7 @@ public class LnkListTests
     [Fact]
     public void Remove_OneAndOnly()
     {
-        var ll = LnkList<string>.From("A");
+        var ll = DoublyLnkList<string>.From("A");
 
         Assert.True(ll.Remove("A"));
 
@@ -130,7 +130,7 @@ public class LnkListTests
     [Fact]
     public void Remove_ManyRemoveInTheMiddle()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         Assert.True(ll.Remove("B"));
 
@@ -140,7 +140,7 @@ public class LnkListTests
     [Fact]
     public void Remove_ManyRemoveLast()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         Assert.True(ll.Remove("C"));
 
@@ -150,7 +150,7 @@ public class LnkListTests
     [Fact]
     public void Remove_ManyNotFound()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         Assert.False(ll.Remove("D"));
     }
@@ -158,7 +158,7 @@ public class LnkListTests
     [Fact]
     public void RemoveAt_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         Assert.Throws<IndexOutOfRangeException>(
             () => ll.RemoveAt(0));
@@ -167,7 +167,7 @@ public class LnkListTests
     [Fact]
     public void RemoveAt_IndexOutOfRange()
     {
-        var ll = LnkList<string>.From("A", "B");
+        var ll = DoublyLnkList<string>.From("A", "B");
 
         Assert.Throws<IndexOutOfRangeException>(() => ll.RemoveAt(-1));
         Assert.Throws<IndexOutOfRangeException>(() => ll.RemoveAt(1000));
@@ -176,7 +176,7 @@ public class LnkListTests
     [Fact]
     public void RemoveAt_OnlyOne()
     {
-        var ll = LnkList<string>.From("One");
+        var ll = DoublyLnkList<string>.From("One");
 
         ll.RemoveAt(0);
 
@@ -186,7 +186,7 @@ public class LnkListTests
     [Fact]
     public void RemoveAt_Many()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         ll.RemoveAt(1);
 
@@ -196,7 +196,7 @@ public class LnkListTests
     [Fact]
     public void RemoveAt_LastOfMany()
     {
-        var ll = LnkList<string>.From("A", "B", "C");
+        var ll = DoublyLnkList<string>.From("A", "B", "C");
 
         ll.RemoveAt(2);
 
@@ -206,7 +206,7 @@ public class LnkListTests
     [Fact]
     public void Count_Empty()
     {
-        var ll = new LnkList<int>();
+        var ll = new DoublyLnkList<int>();
 
         Assert.Equal(0, ll.Count());
     }
@@ -214,7 +214,7 @@ public class LnkListTests
     [Fact]
     public void Count_Many()
     {
-        var ll = LnkList<int>.From(1, 2, 3, 4);
+        var ll = DoublyLnkList<int>.From(1, 2, 3, 4);
 
         Assert.Equal(4, ll.Count());
     }
@@ -222,7 +222,7 @@ public class LnkListTests
     [Fact]
     public void From()
     {
-        var ll = LnkList<int>.From(1, 2, 3);
+        var ll = DoublyLnkList<int>.From(1, 2, 3);
 
         Assert.Equal(new[] { 1, 2, 3 }, ll.ToArray());
     }
@@ -230,16 +230,15 @@ public class LnkListTests
     [Fact]
     public void ToArray_Empty()
     {
-        var ll = new LnkList<int>();
+        var ll = new DoublyLnkList<int>();
 
         Assert.Equal(Array.Empty<int>(), ll.ToArray());
     }
 
-    // 
     [Fact]
     public void ToArray_OneElement()
     {
-        var ll = LnkList<int>.From(1);
+        var ll = DoublyLnkList<int>.From(1);
         ;
 
         Assert.Equal(new[] { 1 }, ll.ToArray());
@@ -248,7 +247,7 @@ public class LnkListTests
     [Fact]
     public void ToArray_TwoElements()
     {
-        var ll = LnkList<int>.From(1, 2);
+        var ll = DoublyLnkList<int>.From(1, 2);
         ;
 
         Assert.Equal(new[] { 1, 2 }, ll.ToArray());
@@ -257,7 +256,7 @@ public class LnkListTests
     [Fact]
     public void ToArray_Many()
     {
-        var ll = LnkList<int>.From(1, 2, 3, 4);
+        var ll = DoublyLnkList<int>.From(1, 2, 3, 4);
 
         Assert.Equal(new[] { 1, 2, 3, 4 }, ll.ToArray());
     }
@@ -265,7 +264,7 @@ public class LnkListTests
     [Fact]
     public void Last()
     {
-        var ll = LnkList<int>.From(1, 2, 3);
+        var ll = DoublyLnkList<int>.From(1, 2, 3);
 
         Assert.Equal(3, ll.Last());
     }
@@ -273,12 +272,28 @@ public class LnkListTests
     [Fact]
     public void Last_Empty()
     {
-        var ll = new LnkList<string>();
+        var ll = new DoublyLnkList<string>();
 
         Assert.Throws<InvalidOperationException>(() => ll.Last());
     }
+    
+    [Fact]
+    public void ToReversedArray_Empty()
+    {
+        var ll = new DoublyLnkList<int>();
 
-    private void AssertElementsCountAndLast<T>(T[] values, LnkList<T> ll) where T : notnull
+        Assert.Equal(Array.Empty<int>(), ll.ToReversedArray());
+    }
+    
+    [Fact]
+    public void ToReversedArray_Many()
+    {
+        var ll = DoublyLnkList<int>.From(1, 2, 3);
+
+        Assert.Equal(new[] { 3, 2, 1 }, ll.ToReversedArray());
+    }
+
+    private void AssertElementsCountAndLast<T>(T[] values, DoublyLnkList<T> ll) where T : notnull
     {
         Assert.Equal(values, ll.ToArray());
         Assert.Equal(values.Length, ll.Count());

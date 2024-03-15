@@ -49,7 +49,7 @@ public class LnkList<T> where T : notnull
             currentNode = currentNode.Next;
         }
 
-        return currentNode.Value;
+        return currentNode!.Value;
     }
 
     // O(1)
@@ -58,10 +58,13 @@ public class LnkList<T> where T : notnull
         if (_head == null)
         {
             _head = new LnkNode<T>(value);
-            return;
+            _last = _head;
         }
-
-        _head = new LnkNode<T>(value, next: _head);
+        else
+        {
+            _head = new LnkNode<T>(value, next: _head);
+        }
+        _count++;
     }
 
 
@@ -76,7 +79,7 @@ public class LnkList<T> where T : notnull
             _head = _last = newNode;
         else // O(1)
         {
-            _last.Next = newNode;
+            _last!.Next = newNode;
             _last = newNode;
         }
 
@@ -88,61 +91,82 @@ public class LnkList<T> where T : notnull
 
     public void Insert(int index, T value)
     {
-        // O(1)
+        if (index < 0 || index > _count)
+            throw new IndexOutOfRangeException();
+
+        var newNode = new LnkNode<T>(value);
+
         if (_count == 0)
-            return;
-
-        // O(1)
-        if (index == 0)
         {
-            var newNode = new LnkNode<T>(value, _head);
+            // Lista vacía, agregamos al principio
             _head = newNode;
-            return;
+            _last = newNode;
         }
-
-        var currentIndex = 0;
-        var current = _head;
-        while (current != null)
+        else if (index == 0)
         {
-            if (currentIndex == index - 1)
+            // Insertar al principio
+            newNode.Next = _head;
+            _head = newNode;
+        }
+        else if (index == _count)
+        {
+            // Insertar al final
+            _last.Next = newNode;
+            _last = newNode;
+        }
+        else
+        {
+            // Insertar en medio
+            var current = _head;
+            for (int i = 0; i < index - 1; i++)
             {
-                var newNode = new LnkNode<T>(value, current.Next);
-                newNode.Next = current.Next;
-                current.Next = newNode;
-                return;
+                current = current.Next;
             }
 
-            current = current.Next;
-            currentIndex++;
+            newNode.Next = current.Next;
+            current.Next = newNode;
         }
+
+        _count++;
     }
 
-    public bool Remove(T value)
-    {
-        if (_head == null)
-            return false;
 
-        if (_head.ValueEquals(value))
+    public bool Remove(T value)
+{
+    if (_head == null)
+        return false;
+
+    if (_head.ValueEquals(value))
+    {
+        _head = _head.Next;
+        if (_head == null)
         {
-            _head = _head.Next;
+            _last = null;
+        }
+        _count--;
+        return true;
+    }
+
+    var currentNode = _head;
+    while (currentNode.Next != null)
+    {
+        if (currentNode.Next.ValueEquals(value))
+        {
+            var nextNode = currentNode.Next;
+            currentNode.Next = nextNode?.Next;
+            if (nextNode.Next == null)
+            {
+                _last = currentNode;
+            }
+            _count--;
             return true;
         }
 
-        var currentNode = _head;
-        while (currentNode != null)
-        {
-            if (currentNode.NextValueEquals(value))
-            {
-                var nextNode = currentNode.Next;
-                currentNode.Next = nextNode!.Next;
-                return true;
-            }
-
-            currentNode = currentNode.Next;
-        }
-
-        return false;
+        currentNode = currentNode.Next;
     }
+
+    return false;
+}
 
     public void RemoveAt(int index)
     {
@@ -155,28 +179,48 @@ public class LnkList<T> where T : notnull
         if (index == 0)
         {
             _head = _head.Next;
+            _count--;
+
+            // Si se eliminó el último elemento, actualiza _last
+            if (_count == 0)
+            {
+                _last = null;
+            }
+
             return;
         }
-        
+
         var currentIndex = 0;
         var currentNode = _head;
-        
-        while (currentNode != null)
+
+        while (currentNode != null && currentNode.Next != null)
         {
             if (currentIndex == index - 1)
             {
-                currentNode.Next = currentNode.Next!.Next;
+                currentNode.Next = currentNode.Next.Next;
+
+                // Si se eliminó el último elemento, actualiza _last
+                if (currentNode.Next == null)
+                {
+                    _last = currentNode;
+                }
+
+                _count--;
                 return;
             }
-            
+
             currentIndex++;
             currentNode = currentNode.Next;
         }
+
+        throw new IndexOutOfRangeException();
     }
 
+
+
+
     // O(1)
-    public int Count() =>
-        _count;
+    public int Count() => _count;
 
     // O(n)
     public T[] ToArray()
@@ -194,5 +238,13 @@ public class LnkList<T> where T : notnull
         }
 
         return result.ToArray();
+    }
+
+    public T Last()
+    {
+        if (_last == null)
+            throw new InvalidOperationException();
+        
+        return _last.Value;
     }
 }
